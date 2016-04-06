@@ -36,7 +36,6 @@ public class LifePanel extends JPanel implements Runnable {
     private static final Color c0 = new Color(0x5F9EA0);
     //Цвет живой клетки.
     private static final Color c1 = new Color(0x006400);
-
     //Создание переменных и файлов для сохранения
     private int saveByte = 0;
     private int readByte = 0;
@@ -46,9 +45,7 @@ public class LifePanel extends JPanel implements Runnable {
 
     public LifePanel() {
         setBackground(Color.BLACK);
-
         // редактор поля
-
         //создания класса для получения событий при работе с мышью
         MouseAdapter ma = new MouseAdapter() {
             private boolean pressedLeft = false;    // нажата левая кнопка мыши
@@ -60,7 +57,7 @@ public class LifePanel extends JPanel implements Runnable {
                 setCell(e);
             }
 
-            // Обработчикнажатия
+            // Обработчик нажатия
             @Override
             public void mousePressed(MouseEvent e) {
                 if (e.getButton() == MouseEvent.BUTTON1) {
@@ -216,7 +213,6 @@ public class LifePanel extends JPanel implements Runnable {
             try {
                 char s[];
                 String s1;
-
                 while (true) {
                     try {
                         Thread.sleep(updateDelay);
@@ -249,8 +245,6 @@ public class LifePanel extends JPanel implements Runnable {
                     getLifeModel().setField(tempField);
                     repaint();
                 }
-
-
             } finally {
                 //закрытие потока ввода
                 in.close();
@@ -278,12 +272,10 @@ public class LifePanel extends JPanel implements Runnable {
                     if (saveByte == 1) {
                         saveToFile();
                     }
-
                     life.simulate();
                 } else {
                     simulateFromFile();
                 }
-
                 repaint();
             }
         }

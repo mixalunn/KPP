@@ -11,13 +11,11 @@ public class LifeSim extends JFrame {
     private Thread starstopTread = null;
     private LifePanel lifeP = new LifePanel();
     private JMenuBar menuBar = new JMenuBar();
-
     private JMenu menuFile = new JMenu("Game");
     private JMenu menuView = new JMenu("View");
     private JMenu sizeMenu = new JMenu("Size");
     private JMenu frameSizeMenu = new JMenu("Field size");
     private JMenu cellSizeMenu = new JMenu("Cell size");
-
     private JMenuItem startItem = new JMenuItem("Run");
     private JMenuItem stopItem = new JMenuItem("Stop");
     private JMenuItem exitItem = new JMenuItem("Exit");
@@ -25,29 +23,20 @@ public class LifeSim extends JFrame {
     private JMenuItem randItem = new JMenuItem("Randomize");
     private JMenuItem saveItem = new JMenuItem("Save as");
     private JMenuItem loadItem = new JMenuItem("Load");
-
-
     private JMenuItem defStyle = new JMenuItem("Standard");
     private JMenuItem ironStyle = new JMenuItem("Metall");
     private JMenuItem motifStyle = new JMenuItem("Motif");
     private JMenuItem nimbusStyle = new JMenuItem("Nimbus");
-
-
     private JMenuItem smallSize = new JMenuItem("Small-70x30");
     private JMenuItem mediumSize = new JMenuItem("Middle-100x70");
     private JMenuItem bigSize = new JMenuItem("Large-150x80");
-
     private JMenuItem cellSSize = new JMenuItem("Small-4");
     private JMenuItem cellMSize = new JMenuItem("Middle-8");
     private JMenuItem cellLSize = new JMenuItem("Large-12");
-
     private JMenuItem usersSize = new JMenuItem("Other");
-
     private JFrame usersSizeWindow = new JFrame("Users sizes");
-
     private JButton button1 = new JButton("Run");
     private JSlider slider = new JSlider(JSlider.HORIZONTAL, 1, 500, 50);
-
     public LifeSim(String title) {
         super(title);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -56,14 +45,11 @@ public class LifeSim extends JFrame {
         // размеры поля
         lifeP.initialize(100, 60);
         add(lifeP);
-
         add(menuBar, BorderLayout.NORTH);
-
         //добавления пунктов меню "Игра"
         menuBar.add(menuFile);
         menuBar.add(new JLabel("     "));
         menuBar.add(sizeMenu);
-
         menuFile.add(startItem);
         menuFile.add(stopItem);
         menuFile.add(clearItem);
@@ -74,29 +60,23 @@ public class LifeSim extends JFrame {
         menuFile.add(loadItem);
         menuFile.addSeparator();
         menuFile.add(exitItem);
-
-
         //добавления пунктов меню "Вид"
         menuView.add(defStyle);
         menuView.add(ironStyle);
         menuView.add(motifStyle);
         menuView.add(nimbusStyle);
-
         //добавления пунктов меню "Размер"
         sizeMenu.add(frameSizeMenu);
         sizeMenu.add(cellSizeMenu);
         sizeMenu.add(usersSize);
-
         //добавления пунктов меню "Погльзовательский Размер"
         frameSizeMenu.add(smallSize);
         frameSizeMenu.add(mediumSize);
         frameSizeMenu.add(bigSize);
-
         //добавления пунктов меню "Размер клетки"
         cellSizeMenu.add(cellSSize);
         cellSizeMenu.add(cellMSize);
         cellSizeMenu.add(cellLSize);
-
         menuBar.add(new JLabel("     "));
         menuBar.add(button1);
         menuBar.add(new JLabel("                       Faster"));
@@ -104,7 +84,6 @@ public class LifeSim extends JFrame {
         menuBar.add(new JLabel("Slower"));
 
         // бегунок, регулирующий скорость симуляции (задержка в мс между шагами симуляции)
-
         lifeP.setUpdateDelay(slider.getValue());
         slider.addChangeListener(new ChangeListener() {
             @Override
@@ -113,14 +92,12 @@ public class LifeSim extends JFrame {
             }
         });
 
-
         menuBar.add(new JLabel("                      "));
         menuBar.add(menuView);
         menuView.add(defStyle);
         menuView.add(ironStyle);
         menuView.add(motifStyle);
         menuView.add(nimbusStyle);
-
 
         // запуск/остановка симуляции; попутно меняется надпись на кнопке
         button1.setMaximumSize(new Dimension(100, 50));
@@ -139,7 +116,6 @@ public class LifeSim extends JFrame {
             }
         });
 
-        //
         startItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -150,7 +126,6 @@ public class LifeSim extends JFrame {
             }
         });
 
-        //
         stopItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -185,6 +160,7 @@ public class LifeSim extends JFrame {
                 }
             }
         });
+
         //пункт меню "Игра"-> "Сохранить"
         saveItem.addActionListener(new ActionListener() {
             @Override
@@ -192,6 +168,7 @@ public class LifeSim extends JFrame {
                 saveWindowFrame();
             }
         });
+
         //пункт меню "Игра"-> "Загрузить"
         loadItem.addActionListener(new ActionListener() {
             @Override
@@ -204,6 +181,7 @@ public class LifeSim extends JFrame {
                 }
             }
         });
+
         //пункт меню "Игра"-> "Выход"
         exitItem.addActionListener(new ActionListener() {
             @Override
@@ -236,6 +214,7 @@ public class LifeSim extends JFrame {
                 pack();
             }
         });
+
         // пункт подменю "Стиль"-> "Motif"
         motifStyle.addActionListener(new ActionListener() {
             @Override
@@ -248,6 +227,7 @@ public class LifeSim extends JFrame {
                 pack();
             }
         });
+
         // пункт подменю "Стиль"-> "Nimbus"
         nimbusStyle.addActionListener(new ActionListener() {
             @Override
@@ -271,6 +251,7 @@ public class LifeSim extends JFrame {
 
             }
         });
+
         // пункт подменю "Размер"-> "Средний"
         mediumSize.addActionListener(new ActionListener() {
             @Override
@@ -281,6 +262,7 @@ public class LifeSim extends JFrame {
 
             }
         });
+
         // пункт подменю "Размер"-> "Большой"
         bigSize.addActionListener(new ActionListener() {
             @Override
@@ -291,6 +273,7 @@ public class LifeSim extends JFrame {
 
             }
         });
+
         //  пункт подменю "Размер клетки"-> "Маленький"
         cellSSize.addActionListener(new ActionListener() {
             @Override
@@ -301,6 +284,7 @@ public class LifeSim extends JFrame {
 
             }
         });
+
         //пункт подменю "Размер клетки"-> "Средний"
         cellMSize.addActionListener(new ActionListener() {
             @Override
@@ -311,6 +295,7 @@ public class LifeSim extends JFrame {
 
             }
         });
+
         //пункт подменю "Размер клетки"-> "Большой"
         cellLSize.addActionListener(new ActionListener() {
             @Override
@@ -330,7 +315,6 @@ public class LifeSim extends JFrame {
             }
         });
 
-
         pack();
         setVisible(true);
         usersWindow();
@@ -349,7 +333,6 @@ public class LifeSim extends JFrame {
         lifeP.setSaveFile(dialog2.getSelectedFile());
         lifeP.setSaveByte(1);
     }
-
 
     //создание отдельного   окна изменения пользователького размера
     public void usersWindow() {
@@ -385,6 +368,7 @@ public class LifeSim extends JFrame {
                 usersSizeWindow.setVisible(false);
             }
         });
+
         okButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -405,6 +389,7 @@ public class LifeSim extends JFrame {
 
             }
         });
+
         usersSizeWindow.setLocationRelativeTo(null);
         usersSizeWindow.setVisible(false);
         pack();

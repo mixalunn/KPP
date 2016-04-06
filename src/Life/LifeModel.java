@@ -42,7 +42,6 @@ public class LifeModel {
         Arrays.fill(mainField, (byte) 0);//очистка поля
     }
 
-
     public void setCell(int x, int y, byte c) {
         mainField[y * width + x] = c;
     }
