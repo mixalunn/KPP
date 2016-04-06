@@ -10,8 +10,8 @@ import java.util.Arrays;
  * По окончании расчета ссылки  массивов меняются местами.
  * В массивах хранятся значения: 0, если клетка мертва, и 1, если жива.
  */
-
 public class LifeModel {
+  private static final int NEIGHBOUR_CELL_AMOUNT = 8;
   private byte[] mainField = null; //главный массив
   private byte[] backField = null; //вспомогательный
   private int width, height; //ширина и высота поля данных
@@ -103,7 +103,7 @@ public class LifeModel {
    */
   private byte countnei(int j) {
     byte n = 0;
-    for (int i = 0; i < 8; i++) {
+    for (int i = 0; i < NEIGHBOUR_CELL_AMOUNT; i++) {
       n += mainField[j + nieborder[i]];
     }
     return n;
@@ -114,7 +114,7 @@ public class LifeModel {
    */
   private byte countBorderNeighbors(int x, int y) {
     byte n = 0;
-    for (int i = 0; i < 8; i++) {
+    for (int i = 0; i < NEIGHBOUR_CELL_AMOUNT; i++) {
       int bx = (x + neioffset[i][0] + width) % width;
       int by = (y + neioffset[i][1] + height) % height;
       n += mainField[by * width + bx];

@@ -24,6 +24,7 @@ import javax.swing.JPanel;
  */
 public class LifePanel extends JPanel implements Runnable {
 
+  private static final int SIZE_STANDART_PANEL = 100;
   private Thread simThread = null;
   private LifeModel life = null;
   //Задержка в мс между шагами симуляции.
@@ -290,7 +291,7 @@ public class LifePanel extends JPanel implements Runnable {
       return new Dimension((cellSize + cellGap) * life.getWidth() + cellGap + b.left + b.right,
               (cellSize + cellGap) * life.getHeight() + cellGap + b.top + b.bottom);
     } else
-      return new Dimension(100, 100);
+      return new Dimension(SIZE_STANDART_PANEL, SIZE_STANDART_PANEL);
   }
 
   // Прорисовка содержимого панели.

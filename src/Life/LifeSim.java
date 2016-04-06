@@ -8,6 +8,17 @@ import javax.swing.event.*;
 
 public class LifeSim extends JFrame {
 
+  private static final int SIZE_MENU_HIGHT = 50;
+  private static final int SIZE_BUTTON_WIDTH = 100;
+  private static final int STANDART_SIZE_HIGHT_PANEL = 70;
+  private static final int STANDART_SIZE_WIGHT_PANEL = 100;
+  private static final int SMALL_SIZE_HIGHT_PANEL = 30;
+  private static final int SMALL_SIZE_WIGHT_PANEL = 70;
+  private static final int BIG_SIZE_HIGHT_PANEL = 80;
+  private static final int BIG_SIZE_WIGHT_PANEL = 150;
+  private static final int SMALL_SIZE_CELL = 4;
+  private static final int STANDART_SIZE_CELL = 8;
+  private static final int BIG_SIZE_CELL = 12;
   private LifePanel lifeP = new LifePanel();
   private JMenuBar menuBar = new JMenuBar();
   private JMenu menuFile = new JMenu("Game");
@@ -43,7 +54,7 @@ public class LifeSim extends JFrame {
     setResizable(false);
 
     // размеры поля
-    lifeP.initialize(100, 60);
+    lifeP.initialize(STANDART_SIZE_WIGHT_PANEL, STANDART_SIZE_HIGHT_PANEL);
     add(lifeP);
     add(menuBar, BorderLayout.NORTH);
     //добавления пунктов меню "Игра"
@@ -100,7 +111,7 @@ public class LifeSim extends JFrame {
     menuView.add(nimbusStyle);
 
     // запуск/остановка симуляции; попутно меняется надпись на кнопке
-    button1.setMaximumSize(new Dimension(100, 50));
+    button1.setMaximumSize(new Dimension(SIZE_BUTTON_WIDTH, SIZE_MENU_HIGHT));
     button1.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
@@ -245,10 +256,9 @@ public class LifeSim extends JFrame {
     smallSize.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        lifeP.initialize(70, 30);
+        lifeP.initialize(SMALL_SIZE_WIGHT_PANEL, SMALL_SIZE_HIGHT_PANEL);
         SwingUtilities.updateComponentTreeUI(getContentPane());
         pack();
-
       }
     });
 
@@ -256,10 +266,9 @@ public class LifeSim extends JFrame {
     mediumSize.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        lifeP.initialize(100, 70);
+        lifeP.initialize(STANDART_SIZE_WIGHT_PANEL, STANDART_SIZE_HIGHT_PANEL);
         SwingUtilities.updateComponentTreeUI(getContentPane());
         pack();
-
       }
     });
 
@@ -267,10 +276,9 @@ public class LifeSim extends JFrame {
     bigSize.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        lifeP.initialize(150, 80);
+        lifeP.initialize(BIG_SIZE_WIGHT_PANEL, BIG_SIZE_HIGHT_PANEL);
         SwingUtilities.updateComponentTreeUI(getContentPane());
         pack();
-
       }
     });
 
@@ -278,10 +286,9 @@ public class LifeSim extends JFrame {
     cellSSize.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        lifeP.setCellSize(4);
+        lifeP.setCellSize(SMALL_SIZE_CELL);
         SwingUtilities.updateComponentTreeUI(getContentPane());
         pack();
-
       }
     });
 
@@ -289,10 +296,9 @@ public class LifeSim extends JFrame {
     cellMSize.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        lifeP.setCellSize(8);
+        lifeP.setCellSize(STANDART_SIZE_CELL);
         SwingUtilities.updateComponentTreeUI(getContentPane());
         pack();
-
       }
     });
 
@@ -300,10 +306,9 @@ public class LifeSim extends JFrame {
     cellLSize.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        lifeP.setCellSize(12);
+        lifeP.setCellSize(BIG_SIZE_CELL);
         SwingUtilities.updateComponentTreeUI(getContentPane());
         pack();
-
       }
     });
 
@@ -311,10 +316,8 @@ public class LifeSim extends JFrame {
       @Override
       public void actionPerformed(ActionEvent e) {
         usersSizeWindow.setVisible(true);
-
       }
     });
-
     pack();
     setVisible(true);
     usersWindow();
@@ -389,7 +392,6 @@ public class LifeSim extends JFrame {
 
       }
     });
-
     usersSizeWindow.setLocationRelativeTo(null);
     usersSizeWindow.setVisible(false);
     pack();
