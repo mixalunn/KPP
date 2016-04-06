@@ -6,49 +6,49 @@ import java.io.IOException;
 import javax.swing.*;
 import javax.swing.event.*;
 
-public class Simulate extends JFrame {
+public class LifeSim extends JFrame {
 
     private Thread starstopTread = null;
-    private LifePan lifeP = new LifePan();
-    private JMenuBar menuBar    = new JMenuBar();
+    private LifePanel lifeP = new LifePanel();
+    private JMenuBar menuBar = new JMenuBar();
 
-    private JMenu   menuFile    = new JMenu("Game");
-    private JMenu   menuView    = new JMenu("View");
-    private JMenu   sizeMenu    = new JMenu("Size");
-    private JMenu   frameSizeMenu    = new JMenu("Field size");
-    private JMenu   cellSizeMenu    = new JMenu("Cell size");
+    private JMenu menuFile = new JMenu("Game");
+    private JMenu menuView = new JMenu("View");
+    private JMenu sizeMenu = new JMenu("Size");
+    private JMenu frameSizeMenu = new JMenu("Field size");
+    private JMenu cellSizeMenu = new JMenu("Cell size");
 
     private JMenuItem startItem = new JMenuItem("Run");
-    private JMenuItem stopItem  = new JMenuItem("Stop");
-    private JMenuItem exitItem  = new JMenuItem("Exit");
+    private JMenuItem stopItem = new JMenuItem("Stop");
+    private JMenuItem exitItem = new JMenuItem("Exit");
     private JMenuItem clearItem = new JMenuItem("Clear");
     private JMenuItem randItem = new JMenuItem("Randomize");
-    private JMenuItem saveItem  = new JMenuItem("Save as");
-    private JMenuItem loadItem  = new JMenuItem("Load");
+    private JMenuItem saveItem = new JMenuItem("Save as");
+    private JMenuItem loadItem = new JMenuItem("Load");
 
 
-    private JMenuItem defStyle  = new JMenuItem("Standard");
-    private JMenuItem ironStyle  = new JMenuItem("Metall");
-    private JMenuItem motifStyle  = new JMenuItem("Motif");
+    private JMenuItem defStyle = new JMenuItem("Standard");
+    private JMenuItem ironStyle = new JMenuItem("Metall");
+    private JMenuItem motifStyle = new JMenuItem("Motif");
     private JMenuItem nimbusStyle = new JMenuItem("Nimbus");
 
 
-    private JMenuItem smallSize   = new JMenuItem("Small-70x30");
-    private JMenuItem mediumSize  = new JMenuItem("Middle-100x70");
-    private JMenuItem bigSize     = new JMenuItem("Large-150x80");
+    private JMenuItem smallSize = new JMenuItem("Small-70x30");
+    private JMenuItem mediumSize = new JMenuItem("Middle-100x70");
+    private JMenuItem bigSize = new JMenuItem("Large-150x80");
 
-    private JMenuItem cellSSize   = new JMenuItem("Small-4");
-    private JMenuItem cellMSize   = new JMenuItem("Middle-8");
-    private JMenuItem cellLSize   = new JMenuItem("Large-12");
+    private JMenuItem cellSSize = new JMenuItem("Small-4");
+    private JMenuItem cellMSize = new JMenuItem("Middle-8");
+    private JMenuItem cellLSize = new JMenuItem("Large-12");
 
-    private JMenuItem usersSize    = new JMenuItem("Other");
+    private JMenuItem usersSize = new JMenuItem("Other");
 
-    private JFrame    usersSizeWindow = new JFrame("Users sizes");
+    private JFrame usersSizeWindow = new JFrame("Users sizes");
 
-    private JButton				button1				= new JButton("Run");
-    private JSlider				slider				= new JSlider(JSlider.HORIZONTAL,1, 500, 50);
+    private JButton button1 = new JButton("Run");
+    private JSlider slider = new JSlider(JSlider.HORIZONTAL, 1, 500, 50);
 
-    public Simulate(String title) {
+    public LifeSim(String title) {
         super(title);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
@@ -107,11 +107,11 @@ public class Simulate extends JFrame {
 
         lifeP.setUpdateDelay(slider.getValue());
         slider.addChangeListener(new ChangeListener() {
-            @Override public void stateChanged(ChangeEvent e) {
+            @Override
+            public void stateChanged(ChangeEvent e) {
                 lifeP.setUpdateDelay(slider.getValue());
             }
         });
-
 
 
         menuBar.add(new JLabel("                      "));
@@ -125,7 +125,8 @@ public class Simulate extends JFrame {
         // запуск/остановка симуляции; попутно меняется надпись на кнопке
         button1.setMaximumSize(new Dimension(100, 50));
         button1.addActionListener(new ActionListener() {
-            @Override public void actionPerformed(ActionEvent e) {
+            @Override
+            public void actionPerformed(ActionEvent e) {
                 if (lifeP.isSimulating()) {
                     lifeP.stopSimulation();
                     button1.setText("Run");
@@ -140,7 +141,8 @@ public class Simulate extends JFrame {
 
         //
         startItem.addActionListener(new ActionListener() {
-            @Override public void actionPerformed(ActionEvent e) {
+            @Override
+            public void actionPerformed(ActionEvent e) {
                 if (!lifeP.isSimulating()) {
                     lifeP.startSimulation();
                     button1.setText("Stop");
@@ -150,7 +152,8 @@ public class Simulate extends JFrame {
 
         //
         stopItem.addActionListener(new ActionListener() {
-            @Override public void actionPerformed(ActionEvent e) {
+            @Override
+            public void actionPerformed(ActionEvent e) {
                 if (lifeP.isSimulating()) {
                     lifeP.stopSimulation();
                     button1.setText("Run");
@@ -163,7 +166,8 @@ public class Simulate extends JFrame {
 
         // пункт меню "Игра"-> "Очистка"
         clearItem.addActionListener(new ActionListener() {
-            @Override public void actionPerformed(ActionEvent e) {
+            @Override
+            public void actionPerformed(ActionEvent e) {
                 synchronized (lifeP.getLifeModel()) {
                     lifeP.getLifeModel().clear();
                     lifeP.repaint();
@@ -173,7 +177,8 @@ public class Simulate extends JFrame {
 
         // пункт меню "Игра"-> "Случаное заполнение"
         randItem.addActionListener(new ActionListener() {
-            @Override public void actionPerformed(ActionEvent e) {
+            @Override
+            public void actionPerformed(ActionEvent e) {
                 synchronized (lifeP.getLifeModel()) {
                     lifeP.getLifeModel().randomByte();
                     lifeP.repaint();
@@ -182,13 +187,15 @@ public class Simulate extends JFrame {
         });
         //пункт меню "Игра"-> "Сохранить"
         saveItem.addActionListener(new ActionListener() {
-            @Override public void actionPerformed(ActionEvent e) {
+            @Override
+            public void actionPerformed(ActionEvent e) {
                 saveWindowFrame();
             }
         });
         //пункт меню "Игра"-> "Загрузить"
         loadItem.addActionListener(new ActionListener() {
-            @Override public void actionPerformed(ActionEvent e) {
+            @Override
+            public void actionPerformed(ActionEvent e) {
                 try {
                     openWindowFrame();
                 } catch (IOException e1) {
@@ -199,47 +206,56 @@ public class Simulate extends JFrame {
         });
         //пункт меню "Игра"-> "Выход"
         exitItem.addActionListener(new ActionListener() {
-            @Override public void actionPerformed(ActionEvent e) {
+            @Override
+            public void actionPerformed(ActionEvent e) {
                 System.exit(0);
             }
         });
 
         // пункт подменю "Стиль"->	"Стандартный"
         defStyle.addActionListener(new ActionListener() {
-            @Override public void actionPerformed(ActionEvent e) {
+            @Override
+            public void actionPerformed(ActionEvent e) {
                 try {
                     UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-                } catch (Exception m) {}
+                } catch (Exception m) {
+                }
                 SwingUtilities.updateComponentTreeUI(getContentPane());
                 pack();
             }
         });
         // пункт подменю "Стиль"-> "Iron"
         ironStyle.addActionListener(new ActionListener() {
-            @Override public void actionPerformed(ActionEvent e) {
+            @Override
+            public void actionPerformed(ActionEvent e) {
                 try {
                     UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
-                } catch (Exception m) {}
+                } catch (Exception m) {
+                }
                 SwingUtilities.updateComponentTreeUI(getContentPane());
                 pack();
             }
         });
         // пункт подменю "Стиль"-> "Motif"
         motifStyle.addActionListener(new ActionListener() {
-            @Override public void actionPerformed(ActionEvent e) {
+            @Override
+            public void actionPerformed(ActionEvent e) {
                 try {
                     UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
-                } catch (Exception m) {}
+                } catch (Exception m) {
+                }
                 SwingUtilities.updateComponentTreeUI(getContentPane());
                 pack();
             }
         });
         // пункт подменю "Стиль"-> "Nimbus"
         nimbusStyle.addActionListener(new ActionListener() {
-            @Override public void actionPerformed(ActionEvent e) {
+            @Override
+            public void actionPerformed(ActionEvent e) {
                 try {
                     UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-                } catch (Exception m) {}
+                } catch (Exception m) {
+                }
                 SwingUtilities.updateComponentTreeUI(getContentPane());
                 pack();
             }
@@ -247,7 +263,8 @@ public class Simulate extends JFrame {
 
         // пункт подменю "Размер"-> "Маленький"
         smallSize.addActionListener(new ActionListener() {
-            @Override public void actionPerformed(ActionEvent e) {
+            @Override
+            public void actionPerformed(ActionEvent e) {
                 lifeP.initialize(70, 30);
                 SwingUtilities.updateComponentTreeUI(getContentPane());
                 pack();
@@ -256,7 +273,8 @@ public class Simulate extends JFrame {
         });
         // пункт подменю "Размер"-> "Средний"
         mediumSize.addActionListener(new ActionListener() {
-            @Override public void actionPerformed(ActionEvent e) {
+            @Override
+            public void actionPerformed(ActionEvent e) {
                 lifeP.initialize(100, 70);
                 SwingUtilities.updateComponentTreeUI(getContentPane());
                 pack();
@@ -265,7 +283,8 @@ public class Simulate extends JFrame {
         });
         // пункт подменю "Размер"-> "Большой"
         bigSize.addActionListener(new ActionListener() {
-            @Override public void actionPerformed(ActionEvent e) {
+            @Override
+            public void actionPerformed(ActionEvent e) {
                 lifeP.initialize(150, 80);
                 SwingUtilities.updateComponentTreeUI(getContentPane());
                 pack();
@@ -274,7 +293,8 @@ public class Simulate extends JFrame {
         });
         //  пункт подменю "Размер клетки"-> "Маленький"
         cellSSize.addActionListener(new ActionListener() {
-            @Override public void actionPerformed(ActionEvent e) {
+            @Override
+            public void actionPerformed(ActionEvent e) {
                 lifeP.setCellSize(4);
                 SwingUtilities.updateComponentTreeUI(getContentPane());
                 pack();
@@ -283,7 +303,8 @@ public class Simulate extends JFrame {
         });
         //пункт подменю "Размер клетки"-> "Средний"
         cellMSize.addActionListener(new ActionListener() {
-            @Override public void actionPerformed(ActionEvent e) {
+            @Override
+            public void actionPerformed(ActionEvent e) {
                 lifeP.setCellSize(8);
                 SwingUtilities.updateComponentTreeUI(getContentPane());
                 pack();
@@ -292,7 +313,8 @@ public class Simulate extends JFrame {
         });
         //пункт подменю "Размер клетки"-> "Большой"
         cellLSize.addActionListener(new ActionListener() {
-            @Override public void actionPerformed(ActionEvent e) {
+            @Override
+            public void actionPerformed(ActionEvent e) {
                 lifeP.setCellSize(12);
                 SwingUtilities.updateComponentTreeUI(getContentPane());
                 pack();
@@ -301,29 +323,27 @@ public class Simulate extends JFrame {
         });
 
         usersSize.addActionListener(new ActionListener() {
-            @Override public void actionPerformed(ActionEvent e) {
+            @Override
+            public void actionPerformed(ActionEvent e) {
                 usersSizeWindow.setVisible(true);
 
             }
         });
 
 
-
         pack();
         setVisible(true);
         usersWindow();
-        //openWindowFrame();
-        //saveWindowFrame();
     }
 
-    public void openWindowFrame() throws IOException{
+    public void openWindowFrame() throws IOException {
         JFileChooser dialog1 = new JFileChooser();
         dialog1.showOpenDialog(this);
         lifeP.setLoadFile(dialog1.getSelectedFile());
         lifeP.setLoadByte(1);
     }
 
-    public void saveWindowFrame(){
+    public void saveWindowFrame() {
         JFileChooser dialog2 = new JFileChooser();
         dialog2.showSaveDialog(this);
         lifeP.setSaveFile(dialog2.getSelectedFile());
@@ -331,11 +351,8 @@ public class Simulate extends JFrame {
     }
 
 
-
- 
     //создание отдельного   окна изменения пользователького размера
-    public void usersWindow()
-    {
+    public void usersWindow() {
         usersSizeWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         usersSizeWindow.setAlwaysOnTop(true);
         JButton okButton = new JButton("Ok");
@@ -343,11 +360,11 @@ public class Simulate extends JFrame {
         JTextField fieldHight = new JTextField(7);
         JTextField fieldWight = new JTextField(7);
         JTextField cellSize = new JTextField(7);
-        JLabel     markerLabel = new JLabel("");
+        JLabel markerLabel = new JLabel("");
         usersSizeWindow.setSize(new Dimension(300, 70));
         usersSizeWindow.setResizable(true);
         usersSizeWindow.setUndecorated(true);
-        usersSizeWindow.setLayout(new GridLayout(3,3));
+        usersSizeWindow.setLayout(new GridLayout(3, 3));
         usersSizeWindow.add(new JLabel("  Field size"));
         usersSizeWindow.add(fieldHight);
         usersSizeWindow.add(fieldWight);
@@ -359,7 +376,8 @@ public class Simulate extends JFrame {
         usersSizeWindow.setVisible(true);
 
         cancelButton.addActionListener(new ActionListener() {
-            @Override public void actionPerformed(ActionEvent e) {
+            @Override
+            public void actionPerformed(ActionEvent e) {
                 markerLabel.setText("");
                 fieldHight.setText("");
                 fieldWight.setText("");
@@ -368,9 +386,10 @@ public class Simulate extends JFrame {
             }
         });
         okButton.addActionListener(new ActionListener() {
-            @Override public void actionPerformed(ActionEvent e) {
-                try{
-                    lifeP.initialize(Integer.parseInt(fieldHight.getText()),Integer.parseInt(fieldWight.getText()));
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    lifeP.initialize(Integer.parseInt(fieldHight.getText()), Integer.parseInt(fieldWight.getText()));
                     lifeP.setCellSize(Integer.parseInt(cellSize.getText()));
                     markerLabel.setText("");
                     fieldHight.setText("");
@@ -380,7 +399,7 @@ public class Simulate extends JFrame {
                     SwingUtilities.updateComponentTreeUI(getContentPane());
                     pack();
 
-                }catch(NumberFormatException m){
+                } catch (NumberFormatException m) {
                     markerLabel.setText("  Error");
                 }
 
@@ -396,11 +415,12 @@ public class Simulate extends JFrame {
         System.out.println("Start");
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
 
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                new Simulate("Life");
+                new LifeSim("Life");
             }
         });
     }

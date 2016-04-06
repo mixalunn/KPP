@@ -22,10 +22,10 @@ import javax.swing.JPanel;
  симуляция запущена.
  Процесс симуляции выполняется в отдельном потоке.
  */
-public class LifePan extends JPanel implements Runnable {
+public class LifePanel extends JPanel implements Runnable {
 
     private Thread simThread = null;
-    private Model life = null;
+    private LifeModel life = null;
     //Задержка в мс между шагами симуляции.
     private int updateDelay = 100;
     //Размер клетки на экране.
@@ -43,7 +43,8 @@ public class LifePan extends JPanel implements Runnable {
     private File savefile;
     private File loadfile;
     private boolean endLoadFile = false;
-    public LifePan() {
+
+    public LifePanel() {
         setBackground(Color.BLACK);
 
         // редактор поля
@@ -109,13 +110,16 @@ public class LifePan extends JPanel implements Runnable {
     }
 
     //фунцкии доступа к обьектам и переменным вне класса
-    public Model getLifeModel() {
+    public LifeModel getLifeModel() {
         return life;
     }
-    public boolean getEndLoadFile() {return endLoadFile;}
+
+    public boolean getEndLoadFile() {
+        return endLoadFile;
+    }
 
     public void initialize(int width, int height) {
-        life = new Model(width, height);
+        life = new LifeModel(width, height);
     }
 
     public void setSaveByte(int g) {
@@ -194,7 +198,7 @@ public class LifePan extends JPanel implements Runnable {
                 } finally {
                     //
                     out.close();
-            }
+                }
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -206,10 +210,9 @@ public class LifePan extends JPanel implements Runnable {
         String hight, widht, tempCellSize;
         byte[] tempField;
 
-        //������ ��� ������ ����� � �����
+
         try {
             BufferedReader in = new BufferedReader(new FileReader(loadfile.getAbsoluteFile()));
-            //� ����� ��������� ��������� ����
             try {
                 char s[];
                 String s1;
@@ -217,8 +220,8 @@ public class LifePan extends JPanel implements Runnable {
                 while (true) {
                     try {
                         Thread.sleep(updateDelay);
+                    } catch (InterruptedException e) {
                     }
-                    catch (InterruptedException e) {}
 
                     if (readByte == 0) break;
                     if (in.readLine() == null) break;
@@ -238,8 +241,6 @@ public class LifePan extends JPanel implements Runnable {
                             } else {
                                 tempField[k] = 0;
                             }
-
-                            //s[g]
                             k++;
                         }
                     }
@@ -250,8 +251,7 @@ public class LifePan extends JPanel implements Runnable {
                 }
 
 
-            }
-            finally {
+            } finally {
                 //закрытие потока ввода
                 in.close();
             }
@@ -261,7 +261,6 @@ public class LifePan extends JPanel implements Runnable {
         setLoadByte(0);
         endLoadFile = true;
     }
-
 
 
     @Override
@@ -285,10 +284,7 @@ public class LifePan extends JPanel implements Runnable {
                     simulateFromFile();
                 }
 
-
                 repaint();
-                //setSaveByte((byte) 0);
-
             }
         }
         repaint();

@@ -3,30 +3,31 @@ package Life;
 import java.util.Arrays;
 
 /**
-    Модель игры "Жизнь".
-    Поверхность поля - тор. т.е все протиивоположные края являютя продолжением друг друга
-    Используется более медленный, но более понятный алгоритм - данные берутся из главного массива  и
-    после расчета результат складывается во вспомогательный массив.
-    По окончании расчета ссылки  массивов меняются местами.
-    В массивах хранятся значения: 0, если клетка мертва, и 1, если жива.
-*/
+ * Модель игры "Жизнь".
+ * Поверхность поля - тор. т.е все протиивоположные края являютя продолжением друг друга
+ * Используется более медленный, но более понятный алгоритм - данные берутся из главного массива  и
+ * после расчета результат складывается во вспомогательный массив.
+ * По окончании расчета ссылки  массивов меняются местами.
+ * В массивах хранятся значения: 0, если клетка мертва, и 1, если жива.
+ */
 
-public class Model {
-    private byte[]	mainField = null; //главный массив
-    private byte[]	backField = null; //вспомогательный
-    private int	width, height; //ширина и высота поля данных
+public class LifeModel {
+    private byte[] mainField = null; //главный массив
+    private byte[] backField = null; //вспомогательный
+    private int width, height; //ширина и высота поля данных
     private int[] nieborder = null; //массив смещения соседних полей по границе
     private int[][] neioffset = null; //масив смещения соседних полей
+
     /*
      Инициализация модели.
     */
-    public Model(int width, int height) {
+    public LifeModel(int width, int height) {
         this.width = width;
         this.height = height;
         mainField = new byte[width * height];
         backField = new byte[width * height];
-        nieborder = new int[] {-width - 1, -width, -width + 1, -1, 1, width - 1, width, width + 1};
-        neioffset = new int[][] { {-1, -1}, {0, -1}, {1, -1}, {-1, 0}, {1, 0}, {-1, 1}, {0, 1}, {1, 1}};
+        nieborder = new int[]{-width - 1, -width, -width + 1, -1, 1, width - 1, width, width + 1};
+        neioffset = new int[][]{{-1, -1}, {0, -1}, {1, -1}, {-1, 0}, {1, 0}, {-1, 1}, {0, 1}, {1, 1}};
     }
 
     public int getWidth() {
@@ -50,8 +51,8 @@ public class Model {
         return mainField[y * width + x];
     }
 
-    public void setField(byte[] temp ){
-        mainField=temp;
+    public void setField(byte[] temp) {
+        mainField = temp;
     }
 
     public byte[] getField() {
@@ -59,7 +60,7 @@ public class Model {
     }
 
     public void randomByte() {
-        for (int i = 0; i < width * height; i++){
+        for (int i = 0; i < width * height; i++) {
             mainField[i] = (byte) (0 + (int) (Math.random() * ((1 - 0) + 1)));
         }
     }
