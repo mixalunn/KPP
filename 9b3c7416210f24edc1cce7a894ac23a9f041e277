@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baa041b7_98e75b40",
+        "filename": "src/Life/LifePanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1007642
+      },
+      "writtenOn": "2016-04-06T21:23:39Z",
+      "side": 1,
+      "message": "magic numbers",
+      "range": {
+        "startLine": 293,
+        "startChar": 27,
+        "endLine": 293,
+        "endChar": 35
+      },
+      "revId": "9b3c7416210f24edc1cce7a894ac23a9f041e277",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_d8c4c393",
+        "filename": "src/Life/LifeSim.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1007642
+      },
+      "writtenOn": "2016-04-06T21:23:39Z",
+      "side": 1,
+      "message": "magic numbers",
+      "range": {
+        "startLine": 103,
+        "startChar": 41,
+        "endLine": 103,
+        "endChar": 48
+      },
+      "revId": "9b3c7416210f24edc1cce7a894ac23a9f041e277",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_98be3bfe",
+        "filename": "src/Life/LifeSim.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1007642
+      },
+      "writtenOn": "2016-04-06T21:23:39Z",
+      "side": 1,
+      "message": "magic numbers",
+      "range": {
+        "startLine": 248,
+        "startChar": 25,
+        "endLine": 248,
+        "endChar": 31
+      },
+      "revId": "9b3c7416210f24edc1cce7a894ac23a9f041e277",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_78bb770f",
+        "filename": "src/Life/LifeSim.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1007642
+      },
+      "writtenOn": "2016-04-06T21:23:39Z",
+      "side": 1,
+      "message": "magic numbers",
+      "range": {
+        "startLine": 259,
+        "startChar": 25,
+        "endLine": 259,
+        "endChar": 32
+      },
+      "revId": "9b3c7416210f24edc1cce7a894ac23a9f041e277",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_383ccf92",
+        "filename": "src/Life/LifeSim.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1007642
+      },
+      "writtenOn": "2016-04-06T21:23:39Z",
+      "side": 1,
+      "message": "magic numbers",
+      "range": {
+        "startLine": 270,
+        "startChar": 25,
+        "endLine": 270,
+        "endChar": 32
+      },
+      "revId": "9b3c7416210f24edc1cce7a894ac23a9f041e277",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_18410b0c",
+        "filename": "src/Life/LifeSim.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1007642
+      },
+      "writtenOn": "2016-04-06T21:23:39Z",
+      "side": 1,
+      "message": "magic numbers",
+      "range": {
+        "startLine": 281,
+        "startChar": 26,
+        "endLine": 281,
+        "endChar": 27
+      },
+      "revId": "9b3c7416210f24edc1cce7a894ac23a9f041e277",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_b848df2e",
+        "filename": "src/Life/LifeSim.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1007642
+      },
+      "writtenOn": "2016-04-06T21:23:39Z",
+      "side": 1,
+      "message": "magic numbers",
+      "range": {
+        "startLine": 292,
+        "startChar": 26,
+        "endLine": 292,
+        "endChar": 27
+      },
+      "revId": "9b3c7416210f24edc1cce7a894ac23a9f041e277",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_98551bc8",
+        "filename": "src/Life/LifeSim.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1007642
+      },
+      "writtenOn": "2016-04-06T21:23:39Z",
+      "side": 1,
+      "message": "magic numbers",
+      "range": {
+        "startLine": 303,
+        "startChar": 26,
+        "endLine": 303,
+        "endChar": 28
+      },
+      "revId": "9b3c7416210f24edc1cce7a894ac23a9f041e277",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
