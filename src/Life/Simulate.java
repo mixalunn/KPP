@@ -1,4 +1,4 @@
-package Life;
+﻿package Life;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -332,8 +332,8 @@ public class Simulate extends JFrame {
 
 
 
-
-    //создание отдельного окна изменения пользователького размера
+ 
+    //создание отдельного   окна изменения пользователького размера
     public void usersWindow()
     {
         usersSizeWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
