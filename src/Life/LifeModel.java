@@ -10,7 +10,6 @@ import java.util.Arrays;
  * По окончании расчета ссылки  массивов меняются местами.
  * В массивах хранятся значения: 0, если клетка мертва, и 1, если жива.
  */
-
 public class LifeModel {
   private byte[] mainField = null; //главный массив
   private byte[] backField = null; //вспомогательный
