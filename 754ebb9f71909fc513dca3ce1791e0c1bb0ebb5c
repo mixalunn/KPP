@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baa041b7_95584458",
+        "filename": "src/Life/LifeModel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1007642
+      },
+      "writtenOn": "2016-04-06T20:22:28Z",
+      "side": 1,
+      "message": "More than 80 symbols",
+      "range": {
+        "startLine": 133,
+        "startChar": 7,
+        "endLine": 133,
+        "endChar": 104
+      },
+      "revId": "754ebb9f71909fc513dca3ce1791e0c1bb0ebb5c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_b55b4854",
+        "filename": "src/Life/LifePanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1007642
+      },
+      "writtenOn": "2016-04-06T20:22:28Z",
+      "side": 1,
+      "message": "Extra brackets",
+      "range": {
+        "startLine": 193,
+        "startChar": 44,
+        "endLine": 193,
+        "endChar": 61
+      },
+      "revId": "754ebb9f71909fc513dca3ce1791e0c1bb0ebb5c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
