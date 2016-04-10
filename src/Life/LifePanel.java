@@ -16,49 +16,81 @@ import java.io.PrintWriter;
 
 import javax.swing.JPanel;
 
-/*
- Панель симулятора с редактором поля.
- Левой кнопкой мыши можно ставить клетки, правой - стирать. Редактирование доступно в любое время, даже когда
- симуляция запущена.
- Процесс симуляции выполняется в отдельном потоке.
+/**
+ * Panel simulator from a field editor.
+ * Left mouse button - put the cell, right - delete.  Editing is available at any time, even when
+ * simulation is running.
+ * Simulation process is performed in a separate thread.
+ *
+ * @see LifeSim
  */
 public class LifePanel extends JPanel implements Runnable {
 
+  /**
+   * Default window size.
+   */
   private static final int SIZE_STANDART_PANEL = 100;
+  /**
+   * Thread for simulation.
+   */
   private Thread simThread = null;
+  /**
+   * Model game.
+   *
+   * @see LifeModel
+   */
   private LifeModel life = null;
-  //Задержка в мс между шагами симуляции.
+  /**
+   * Delay in milliseconds between steps simulation.
+   */
   private int updateDelay = 100;
-  //Размер клетки на экране.
+  /**
+   * Cell size on the screen.
+   */
   private int cellSize = 8;
-  // Промежуток между клетками.
+  /**
+   * The spacing between a cells.
+   */
   private int cellGap = 1;
-  //Цвет мертвой клетки.
+  /**
+   * Dead cell color.
+   */
   private static final Color c0 = new Color(0x5F9EA0);
-  //Цвет живой клетки.
+  /**
+   * Alive cell color.
+   */
   private static final Color c1 = new Color(0x006400);
-  //Создание переменных и файлов для сохранения
+  /**
+   * Byte for saving in thread {@link #saveToFile()}
+   */
   private int saveByte = 0;
+  /**
+   * Byte for loading in thread {@link #simulateFromFile()}
+   */
   private int readByte = 0;
+  /**
+   * File for saving. {@link #saveToFile()}
+   */
   private File savefile;
+  /**
+   * File for loading. {@link #simulateFromFile()}
+   */
   private File loadfile;
-  private boolean endLoadFile = false;
 
+  /**
+   * Object game panel creation and setting event handlers mouse
+   */
   public LifePanel() {
     setBackground(Color.BLACK);
-    // редактор поля
-    //создания класса для получения событий при работе с мышью
     MouseAdapter ma = new MouseAdapter() {
       private boolean pressedLeft = false;    // нажата левая кнопка мыши
       private boolean pressedRight = false;    // нажата правая кнопка мыши
 
-      // Обработчик кординат нахождения курсора
       @Override
       public void mouseDragged(MouseEvent e) {
         setCell(e);
       }
 
-      // Обработчик нажатия
       @Override
       public void mousePressed(MouseEvent e) {
         if (e.getButton() == MouseEvent.BUTTON1) {
@@ -72,7 +104,6 @@ public class LifePanel extends JPanel implements Runnable {
         }
       }
 
-      //Отпускание кнопки
       @Override
       public void mouseReleased(MouseEvent e) {
         if (e.getButton() == MouseEvent.BUTTON1) {
@@ -82,7 +113,6 @@ public class LifePanel extends JPanel implements Runnable {
         }
       }
 
-      // Устанавливает/стирает клетку.
       private void setCell(MouseEvent e) {
         if (life != null) {
           synchronized (life) {
@@ -107,36 +137,66 @@ public class LifePanel extends JPanel implements Runnable {
     addMouseMotionListener(ma);
   }
 
-  //фунцкии доступа к обьектам и переменным вне класса
+  /**
+   * Gets model game.
+   *
+   * @return Game model class.
+   */
   public LifeModel getLifeModel() {
     return life;
   }
 
-  public boolean getEndLoadFile() {
-    return endLoadFile;
-  }
-
+  /**
+   * Initialization new model with the set parameters.
+   *
+   * @param width  amount cell in wight.
+   * @param height amount cell in height.
+   */
   public void initialize(int width, int height) {
     life = new LifeModel(width, height);
   }
 
+  /**
+   * Setting value byte for saving in thread {@link #saveToFile()}
+   *
+   * @param g value byte.
+   */
   public void setSaveByte(int g) {
     saveByte = g;
   }
 
+  /**
+   * Setting value byte for loading in thread {@link #simulateFromFile()}
+   *
+   * @param g value byte.
+   */
   public void setLoadByte(int g) {
     readByte = g;
   }
 
+  /**
+   * Setting file for saving in thread {@link #saveToFile()}
+   *
+   * @param f selected file.
+   */
   public void setSaveFile(File f) {
     savefile = f;
   }
 
+  /**
+   * Setting file for loading in thread {@link #simulateFromFile()}
+   *
+   * @param f selected file.
+   */
   public void setLoadFile(File f) {
     loadfile = f;
   }
 
-  //Установка значения размера клетки
+  /**
+   * Setting value cell size.
+   *
+   * @param s - cell size.
+   */
   public void setCellSize(int s) {
     synchronized (life) {
       life.simulate();
@@ -144,16 +204,18 @@ public class LifePanel extends JPanel implements Runnable {
     cellSize = s;
   }
 
-  public int getCellSize() {
-    return cellSize;
-
-  }
-
+  /**
+   * Setting delay updating game field.
+   *
+   * @param updateDelay delay in ms.
+   */
   public void setUpdateDelay(int updateDelay) {
     this.updateDelay = updateDelay;
   }
 
-  // Запуск потока
+  /**
+   * Start thread for simulation game
+   */
   public void startSimulation() {
     if (simThread == null) {
       simThread = new Thread(this);
@@ -161,54 +223,57 @@ public class LifePanel extends JPanel implements Runnable {
     }
   }
 
-  //Остановка потока
+  /**
+   * Stop thread for simulation game.
+   */
   public void stopSimulation() {
     simThread = null;
   }
 
-  //проверка работы потока
+  /**
+   * Status check of running thread.
+   *
+   * @return True if thread is running.
+   */
   public boolean isSimulating() {
     return simThread != null;
   }
 
+  /**
+   * Saving in file.
+   */
   public void saveToFile() {
-    {
-      byte[] tempField = life.getField(); //Возвращаем масив в данный момент
-
-      //проверка, существует ли выбранный файл если нет то создаем новый
-      try {
-        if (!savefile.exists()) {
-          savefile.createNewFile();
-        }
-
-        PrintWriter out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(savefile.getAbsolutePath(), true), "UTF-8"));
-        try { //записываем данные в файл
-          out.println(savefile.getName());
-          out.println(Integer.toString(life.getWidth()));
-          out.println(Integer.toString(life.getHeight()));
-          out.println(Integer.toString(cellSize));
-          for (int i = 0; i < life.getHeight(); i++) {
-            for (int g = 0; g < (life.getWidth()); g++) {
-              out.print(tempField[i * life.getWidth() + g]);
-            }
-            out.println();
-          }
-        } finally {
-          //
-          out.close();
-        }
-      } catch (IOException e) {
-        throw new RuntimeException(e);
+    byte[] tempField = life.getField();
+    try {
+      if (!savefile.exists()) {
+        savefile.createNewFile();
       }
+      PrintWriter out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(savefile.getAbsolutePath(), true), "UTF-8"));
+      try {
+        out.println(savefile.getName());
+        out.println(Integer.toString(life.getWidth()));
+        out.println(Integer.toString(life.getHeight()));
+        out.println(Integer.toString(cellSize));
+        for (int i = 0; i < life.getHeight(); i++) {
+          for (int g = 0; g < (life.getWidth()); g++) {
+            out.print(tempField[i * life.getWidth() + g]);
+          }
+          out.println();
+        }
+      } finally {
+        out.close();
+      }
+    } catch (IOException e) {
+      throw new RuntimeException(e);
     }
   }
 
-  //симуляция из файла
+  /**
+   * Load and simulation from file.
+   */
   public void simulateFromFile() {
     String hight, widht, tempCellSize;
     byte[] tempField;
-
-
     try {
       BufferedReader in = new BufferedReader(new FileReader(loadfile.getAbsoluteFile()));
       try {
@@ -247,17 +312,18 @@ public class LifePanel extends JPanel implements Runnable {
           repaint();
         }
       } finally {
-        //закрытие потока ввода
         in.close();
       }
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
     setLoadByte(0);
-    endLoadFile = true;
+    stopSimulation();
   }
 
-
+  /**
+   * Setting display field and check save/load in the thread.
+   */
   @Override
   public void run() {
     repaint();
@@ -266,8 +332,6 @@ public class LifePanel extends JPanel implements Runnable {
         Thread.sleep(updateDelay);
       } catch (InterruptedException e) {
       }
-      // синхронизация используется для того, чтобы метод paintComponent не выводил на экран
-      // содержимое поля, которое в данный момент меняется
       synchronized (life) {
         if (readByte == 0) {
           if (saveByte == 1) {
@@ -283,7 +347,11 @@ public class LifePanel extends JPanel implements Runnable {
     repaint();
   }
 
-  //Возвращает размер панели с учетом размера поля и клеток.
+  /**
+   * Getting  size of the panel based on field size and cells.
+   *
+   * @return Dimension panel.
+   */
   @Override
   public Dimension getPreferredSize() {
     if (life != null) {
@@ -294,7 +362,9 @@ public class LifePanel extends JPanel implements Runnable {
       return new Dimension(SIZE_STANDART_PANEL, SIZE_STANDART_PANEL);
   }
 
-  // Прорисовка содержимого панели.
+  /**
+   * Redrawing content pane.
+   */
   @Override
   protected void paintComponent(Graphics g) {
     if (life != null) {
@@ -312,5 +382,4 @@ public class LifePanel extends JPanel implements Runnable {
       }
     }
   }
-
 }

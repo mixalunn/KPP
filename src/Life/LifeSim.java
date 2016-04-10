@@ -1,4 +1,4 @@
-﻿package Life;
+package Life;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -6,19 +6,75 @@ import java.io.IOException;
 import javax.swing.*;
 import javax.swing.event.*;
 
+/**
+ * Class creates an application window and user interface
+ *
+ * @author Michail Yuncevich
+ */
 public class LifeSim extends JFrame {
-
-  private static final int SIZE_MENU_HIGHT = 50;
+  /**
+   * Height menu bar
+   */
+  private static final int SIZE_MENU_HEIGHT = 50;
+  /**
+   * Maximal width slider
+   */
+  private static final int SIZE_SLIDER_WIDTH = 500;
+  /**
+   * Maximal width button run/stop
+   */
   private static final int SIZE_BUTTON_WIDTH = 100;
-  private static final int STANDART_SIZE_HIGHT_PANEL = 70;
-  private static final int STANDART_SIZE_WIGHT_PANEL = 100;
-  private static final int SMALL_SIZE_HIGHT_PANEL = 30;
-  private static final int SMALL_SIZE_WIGHT_PANEL = 70;
-  private static final int BIG_SIZE_HIGHT_PANEL = 80;
-  private static final int BIG_SIZE_WIGHT_PANEL = 150;
-  private static final int SMALL_SIZE_CELL = 4;
-  private static final int STANDART_SIZE_CELL = 8;
-  private static final int BIG_SIZE_CELL = 12;
+  /**
+   * Standard height panel
+   */
+  private static final int STANDARD_HEIGHT = 70;
+  /**
+   * Standard wight panel
+   */
+  private static final int STANDARD_WIGHT = 100;
+  /**
+   * Small height panel
+   */
+  private static final int SMALL_HEIGHT = 40;
+  /**
+   * Small wight panel
+   */
+  private static final int SMALL_WIGHT = 70;
+  /**
+   * Big height panel
+   */
+  private static final int BIG_HEIGHT = 80;
+  /**
+   * Big wight panel
+   */
+  private static final int BIG_WIGHT = 150;
+  /**
+   * Small cell size
+   */
+  private static final int SMALL_CELL = 5;
+  /**
+   * Standard cell size
+   */
+  private static final int STANDARD_CELL = 8;
+  /**
+   * Big cell size
+   */
+  private static final int BIG_CELL = 10;
+  /**
+   * Minimal value delay in slider {@link #slider}
+   */
+  private static final int MIN_SLEEP = 1;
+  /**
+   * Maximal value delay in slider {@link #slider}
+   */
+  private static final int MAX_SLEEP = 400;
+  /**
+   * Starting value delay in slider {@link #slider}
+   */
+  private static final int START_SLEEP = 60;
+  /**
+   * Game field
+   */
   private LifePanel lifeP = new LifePanel();
   private JMenuBar menuBar = new JMenuBar();
   private JMenu menuFile = new JMenu("Game");
@@ -37,29 +93,32 @@ public class LifeSim extends JFrame {
   private JMenuItem ironStyle = new JMenuItem("Metall");
   private JMenuItem motifStyle = new JMenuItem("Motif");
   private JMenuItem nimbusStyle = new JMenuItem("Nimbus");
-  private JMenuItem smallSize = new JMenuItem("Small-70x30");
+  private JMenuItem smallSize = new JMenuItem("Small-70x40");
   private JMenuItem mediumSize = new JMenuItem("Middle-100x70");
   private JMenuItem bigSize = new JMenuItem("Large-150x80");
-  private JMenuItem cellSSize = new JMenuItem("Small-4");
-  private JMenuItem cellMSize = new JMenuItem("Middle-8");
-  private JMenuItem cellLSize = new JMenuItem("Large-12");
+  private JMenuItem cellSSize = new JMenuItem("Small");
+  private JMenuItem cellMSize = new JMenuItem("Middle");
+  private JMenuItem cellLSize = new JMenuItem("Large");
   private JMenuItem usersSize = new JMenuItem("Other");
   private JFrame usersSizeWindow = new JFrame("Users sizes");
   private JButton button1 = new JButton("Run");
-  private JSlider slider = new JSlider(JSlider.HORIZONTAL, 1, 500, 50);
+  private JSlider slider = new JSlider(JSlider.HORIZONTAL, MIN_SLEEP, MAX_SLEEP, START_SLEEP);
 
+  /**
+   * Create new window, adding visual elements and handling actions
+   *
+   * @param title - name new window
+   */
   public LifeSim(String title) {
     super(title);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setResizable(false);
 
-    // размеры поля
-    lifeP.initialize(STANDART_SIZE_WIGHT_PANEL, STANDART_SIZE_HIGHT_PANEL);
+    lifeP.initialize(STANDARD_WIGHT, STANDARD_HEIGHT);
     add(lifeP);
     add(menuBar, BorderLayout.NORTH);
-    //добавления пунктов меню "Игра"
     menuBar.add(menuFile);
-    menuBar.add(new JLabel("     "));
+    menuBar.add(new JLabel("  "));
     menuBar.add(sizeMenu);
     menuFile.add(startItem);
     menuFile.add(stopItem);
@@ -71,31 +130,33 @@ public class LifeSim extends JFrame {
     menuFile.add(loadItem);
     menuFile.addSeparator();
     menuFile.add(exitItem);
-    //добавления пунктов меню "Вид"
     menuView.add(defStyle);
     menuView.add(ironStyle);
     menuView.add(motifStyle);
     menuView.add(nimbusStyle);
-    //добавления пунктов меню "Размер"
     sizeMenu.add(frameSizeMenu);
     sizeMenu.add(cellSizeMenu);
     sizeMenu.add(usersSize);
-    //добавления пунктов меню "Погльзовательский Размер"
     frameSizeMenu.add(smallSize);
     frameSizeMenu.add(mediumSize);
     frameSizeMenu.add(bigSize);
-    //добавления пунктов меню "Размер клетки"
     cellSizeMenu.add(cellSSize);
     cellSizeMenu.add(cellMSize);
     cellSizeMenu.add(cellLSize);
-    menuBar.add(new JLabel("     "));
+    menuBar.add(new JLabel("   "));
+    menuBar.add(menuView);
+    menuView.add(defStyle);
+    menuView.add(ironStyle);
+    menuView.add(motifStyle);
+    menuView.add(nimbusStyle);
+    menuBar.add(new JLabel("  "));
     menuBar.add(button1);
-    menuBar.add(new JLabel("                       Faster"));
+    menuBar.add(new JLabel("       Faster"));
     menuBar.add(slider);
     menuBar.add(new JLabel("Slower"));
-
-    // бегунок, регулирующий скорость симуляции (задержка в мс между шагами симуляции)
     lifeP.setUpdateDelay(slider.getValue());
+    button1.setMaximumSize(new Dimension(SIZE_BUTTON_WIDTH, SIZE_MENU_HEIGHT));
+    slider.setMaximumSize(new Dimension(SIZE_SLIDER_WIDTH, SIZE_MENU_HEIGHT));
     slider.addChangeListener(new ChangeListener() {
       @Override
       public void stateChanged(ChangeEvent e) {
@@ -103,15 +164,6 @@ public class LifeSim extends JFrame {
       }
     });
 
-    menuBar.add(new JLabel("                      "));
-    menuBar.add(menuView);
-    menuView.add(defStyle);
-    menuView.add(ironStyle);
-    menuView.add(motifStyle);
-    menuView.add(nimbusStyle);
-
-    // запуск/остановка симуляции; попутно меняется надпись на кнопке
-    button1.setMaximumSize(new Dimension(SIZE_BUTTON_WIDTH, SIZE_MENU_HIGHT));
     button1.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
@@ -150,7 +202,6 @@ public class LifeSim extends JFrame {
       }
     });
 
-    // пункт меню "Игра"-> "Очистка"
     clearItem.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
@@ -161,7 +212,6 @@ public class LifeSim extends JFrame {
       }
     });
 
-    // пункт меню "Игра"-> "Случаное заполнение"
     randItem.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
@@ -172,15 +222,18 @@ public class LifeSim extends JFrame {
       }
     });
 
-    //пункт меню "Игра"-> "Сохранить"
     saveItem.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        saveWindowFrame();
+        try {
+          saveWindowFrame();
+        } catch (IOException e1) {
+          // TODO Auto-generated catch block
+          e1.printStackTrace();
+        }
       }
     });
 
-    //пункт меню "Игра"-> "Загрузить"
     loadItem.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
@@ -193,7 +246,6 @@ public class LifeSim extends JFrame {
       }
     });
 
-    //пункт меню "Игра"-> "Выход"
     exitItem.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
@@ -201,7 +253,6 @@ public class LifeSim extends JFrame {
       }
     });
 
-    // пункт подменю "Стиль"->	"Стандартный"
     defStyle.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
@@ -213,7 +264,7 @@ public class LifeSim extends JFrame {
         pack();
       }
     });
-    // пункт подменю "Стиль"-> "Iron"
+
     ironStyle.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
@@ -226,7 +277,6 @@ public class LifeSim extends JFrame {
       }
     });
 
-    // пункт подменю "Стиль"-> "Motif"
     motifStyle.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
@@ -239,7 +289,6 @@ public class LifeSim extends JFrame {
       }
     });
 
-    // пункт подменю "Стиль"-> "Nimbus"
     nimbusStyle.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
@@ -252,61 +301,55 @@ public class LifeSim extends JFrame {
       }
     });
 
-    // пункт подменю "Размер"-> "Маленький"
     smallSize.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        lifeP.initialize(SMALL_SIZE_WIGHT_PANEL, SMALL_SIZE_HIGHT_PANEL);
+        lifeP.initialize(SMALL_WIGHT, SMALL_HEIGHT);
         SwingUtilities.updateComponentTreeUI(getContentPane());
         pack();
       }
     });
 
-    // пункт подменю "Размер"-> "Средний"
     mediumSize.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        lifeP.initialize(STANDART_SIZE_WIGHT_PANEL, STANDART_SIZE_HIGHT_PANEL);
+        lifeP.initialize(STANDARD_WIGHT, STANDARD_HEIGHT);
         SwingUtilities.updateComponentTreeUI(getContentPane());
         pack();
       }
     });
 
-    // пункт подменю "Размер"-> "Большой"
     bigSize.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        lifeP.initialize(BIG_SIZE_WIGHT_PANEL, BIG_SIZE_HIGHT_PANEL);
+        lifeP.initialize(BIG_WIGHT, BIG_HEIGHT);
         SwingUtilities.updateComponentTreeUI(getContentPane());
         pack();
       }
     });
 
-    //  пункт подменю "Размер клетки"-> "Маленький"
     cellSSize.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        lifeP.setCellSize(SMALL_SIZE_CELL);
+        lifeP.setCellSize(SMALL_CELL);
         SwingUtilities.updateComponentTreeUI(getContentPane());
         pack();
       }
     });
 
-    //пункт подменю "Размер клетки"-> "Средний"
     cellMSize.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        lifeP.setCellSize(STANDART_SIZE_CELL);
+        lifeP.setCellSize(STANDARD_CELL);
         SwingUtilities.updateComponentTreeUI(getContentPane());
         pack();
       }
     });
 
-    //пункт подменю "Размер клетки"-> "Большой"
     cellLSize.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        lifeP.setCellSize(BIG_SIZE_CELL);
+        lifeP.setCellSize(BIG_CELL);
         SwingUtilities.updateComponentTreeUI(getContentPane());
         pack();
       }
@@ -323,6 +366,11 @@ public class LifeSim extends JFrame {
     usersWindow();
   }
 
+  /**
+   * Opening dialog to save a file selection
+   *
+   * @throws IOException Exception save in file
+   */
   public void openWindowFrame() throws IOException {
     JFileChooser dialog1 = new JFileChooser();
     dialog1.showOpenDialog(this);
@@ -330,24 +378,34 @@ public class LifeSim extends JFrame {
     lifeP.setLoadByte(1);
   }
 
-  public void saveWindowFrame() {
+  /**
+   * Opening dialog to load a file selection
+   *
+   * @throws IOException Exception load from file
+   */
+  public void saveWindowFrame() throws IOException {
     JFileChooser dialog2 = new JFileChooser();
     dialog2.showSaveDialog(this);
     lifeP.setSaveFile(dialog2.getSelectedFile());
     lifeP.setSaveByte(1);
   }
 
-  //создание отдельного   окна изменения пользователького размера
+  /**
+   * Creation and opening field size change window
+   */
   public void usersWindow() {
+    final int FIELD_SIZE = 7;
+    final int WINDOW_SIZE_HEIGHT = 70;
+    final int WINDOW_SIZE_WIGHT = 300;
     usersSizeWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     usersSizeWindow.setAlwaysOnTop(true);
     JButton okButton = new JButton("Ok");
-    JButton cancelButton = new JButton("Cansel");
-    JTextField fieldHight = new JTextField(7);
-    JTextField fieldWight = new JTextField(7);
-    JTextField cellSize = new JTextField(7);
+    JButton cancelButton = new JButton("Cancel");
+    JTextField fieldHight = new JTextField(FIELD_SIZE);
+    JTextField fieldWight = new JTextField(FIELD_SIZE);
+    JTextField cellSize = new JTextField(FIELD_SIZE);
     JLabel markerLabel = new JLabel("");
-    usersSizeWindow.setSize(new Dimension(300, 70));
+    usersSizeWindow.setSize(new Dimension(WINDOW_SIZE_WIGHT, WINDOW_SIZE_HEIGHT));
     usersSizeWindow.setResizable(true);
     usersSizeWindow.setUndecorated(true);
     usersSizeWindow.setLayout(new GridLayout(3, 3));
@@ -385,11 +443,9 @@ public class LifeSim extends JFrame {
           usersSizeWindow.setVisible(false);
           SwingUtilities.updateComponentTreeUI(getContentPane());
           pack();
-
         } catch (NumberFormatException m) {
           markerLabel.setText("  Error");
         }
-
       }
     });
     usersSizeWindow.setLocationRelativeTo(null);
@@ -397,8 +453,13 @@ public class LifeSim extends JFrame {
     pack();
   }
 
+  /**
+   * Main method of the program. It sets the standard style of the application
+   * and launches the main application thread with a new class LifeSim.
+   *
+   * @param args
+   */
   public static void main(String[] args) {
-
     System.out.println("Start");
     try {
       UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -411,6 +472,4 @@ public class LifeSim extends JFrame {
       }
     });
   }
-
-
 }

@@ -3,68 +3,129 @@ package Life;
 import java.util.Arrays;
 
 /**
- * Модель игры "Жизнь".
- * Поверхность поля - тор. т.е все протиивоположные края являютя продолжением друг друга
- * Используется более медленный, но более понятный алгоритм - данные берутся из главного массива  и
- * после расчета результат складывается во вспомогательный массив.
- * По окончании расчета ссылки  массивов меняются местами.
- * В массивах хранятся значения: 0, если клетка мертва, и 1, если жива.
+ * Model game "Life"
+ * Surface of the field - toroid. 
+ * For simulation, using double buffering: data are taken from main array <b>mainField</b>,
+ * after the calculation result is added to sub array  <b>backField</b>.
+ * After calculating arrays are swapped.
+ * The arrays are stored values: 0, if cell is dead, and 1 if alive
  */
 public class LifeModel {
-  private byte[] mainField = null; //главный массив
-  private byte[] backField = null; //вспомогательный
-  private int width, height; //ширина и высота поля данных
-  private int[] nieborder = null; //массив смещения соседних полей по границе
-  private int[][] neioffset = null; //масив смещения соседних полей
+  /**
+   * Total amount of neighboring cells.
+   */
+  private static final int NEIGHBORS_CELL_AMOUNT = 8;
+  /**
+   * Main array.
+   */
+  private byte[] mainField = null;
+  /**
+   * Sub array
+   */
+  private byte[] backField = null;
+  /**
+   * Number cell on width and height
+   */
+  private int width, height;
+  /**
+   * Offsets array
+   */
+  private int[] neighborOffset = null;
+  /**
+   * Offsets array on height and wight
+   */
+  private int[][] neighborXYOffset = null;
 
-  /*
-   Инициализация модели.
-  */
+  /**
+   * Initialization model.
+   *
+   * @param width  widht data field.
+   * @param height height data field.
+   */
   public LifeModel(int width, int height) {
     this.width = width;
     this.height = height;
     mainField = new byte[width * height];
     backField = new byte[width * height];
-    nieborder = new int[]{-width - 1, -width, -width + 1, -1, 1, width - 1, width, width + 1};
-    neioffset = new int[][]{{-1, -1}, {0, -1}, {1, -1}, {-1, 0}, {1, 0}, {-1, 1}, {0, 1}, {1, 1}};
+    neighborOffset = new int[]{-width - 1, -width, -width + 1, -1, 1, width - 1, width, width + 1};
+    neighborXYOffset = new int[][]{{-1, -1}, {0, -1}, {1, -1}, {-1, 0}, {1, 0}, {-1, 1}, {0, 1}, {1, 1}};
   }
 
+  /**
+   * @return Number cell on wight.
+   */
   public int getWidth() {
     return width;
   }
 
+  /**
+   * @return Number cell on height.
+   */
   public int getHeight() {
     return height;
   }
 
+  /**
+   * Clear cells array.
+   */
   public void clear() {
-    Arrays.fill(mainField, (byte) 0);//очистка поля
+    Arrays.fill(mainField, (byte) 0);
   }
 
+  /**
+   * Setting the value of a single cell in array that is get {@link #getCell(int, int)}
+   *
+   * @param x cell number on height.
+   * @param y cell number om wight.
+   * @param c value cell: 0 - dead, 1 - alive.
+   */
   public void setCell(int x, int y, byte c) {
     mainField[y * width + x] = c;
   }
 
+  /**
+   * Getting the value of a single cell in array that is set {@link #setCell(int, int, byte)}
+   *
+   * @param x cell number on height.
+   * @param y - cell number om wight.
+   * @return Value cell in byte: 0 - dead, 1 - alive.
+   */
   public byte getCell(int x, int y) {
     return mainField[y * width + x];
   }
 
+  /**
+   * Setting array cells that is get {@link #getField()}
+   *
+   * @param temp - new array.
+   */
   public void setField(byte[] temp) {
     mainField = temp;
   }
 
+  /**
+   * Getting array cells that is set {@link #setField}
+   *
+   * @return main array <b>mainField</b>
+   */
   public byte[] getField() {
     return mainField;
   }
 
+  /**
+   * Random filling of the array of cells.
+   */
   public void randomByte() {
     for (int i = 0; i < width * height; i++) {
       mainField[i] = (byte) (0 + (int) (Math.random() * ((1 - 0) + 1)));
     }
   }
 
-  public void simulate() { //один шаг симуляции
-    for (int y = 1; y < height - 1; y++) { // обрабатываем клетки, не касающиеся краев поля
+  /**
+   * One step simulation.
+   */
+  public void simulate() {
+    for (int y = 1; y < height - 1; y++) {
       for (int x = 1; x < width - 1; x++) {
         int j = y * width + x;
         byte n = countnei(j);
@@ -72,8 +133,6 @@ public class LifeModel {
       }
     }
 
-    // обрабатываем граничные клетки
-    // верхняя и нижняя строки
     for (int x = 0; x < width; x++) {
       int j = width * (height - 1);
       byte n = countBorderNeighbors(x, 0);
@@ -81,7 +140,7 @@ public class LifeModel {
       n = countBorderNeighbors(x, height - 1);
       backField[x + j] = simulateCell(mainField[x + j], n);
     }
-    // крайние левый и правый столбцы
+
     for (int y = 1; y < height - 1; y++) {
       int j = width * y;
       byte n = countBorderNeighbors(0, y);
@@ -89,43 +148,48 @@ public class LifeModel {
       n = countBorderNeighbors(width - 1, y);
       backField[j + width - 1] = simulateCell(mainField[j + width - 1], n);
     }
-
-    // обмениваем поля местами
     byte[] t = mainField;
     mainField = backField;
     backField = t;
   }
 
-  /*
-  Подсчет соседей для не касающихся краев клеток.
-  j - смещение клетки в массиве
+  /**
+   * Counting the neighbors to not touch the edges of cells.
+   *
+   * @param j offset in array.
+   * @return amount alive neighbors.
    */
   private byte countnei(int j) {
     byte n = 0;
-    for (int i = 0; i < 8; i++) {
-      n += mainField[j + nieborder[i]];
+    for (int i = 0; i < NEIGHBORS_CELL_AMOUNT; i++) {
+      n += mainField[j + neighborOffset[i]];
     }
     return n;
   }
 
-  /*
-   Подсчет соседей для граничных клеток.
+  /**
+   * Counting neighbors for the boundary cells.
+   *
+   * @param x cell number on wight.
+   * @param y cell number on height.
+   * @return Amount alive neighbors.
    */
   private byte countBorderNeighbors(int x, int y) {
     byte n = 0;
-    for (int i = 0; i < 8; i++) {
-      int bx = (x + neioffset[i][0] + width) % width;
-      int by = (y + neioffset[i][1] + height) % height;
+    for (int i = 0; i < NEIGHBORS_CELL_AMOUNT; i++) {
+      int bx = (x + neighborXYOffset[i][0] + width) % width;
+      int by = (y + neighborXYOffset[i][1] + height) % height;
       n += mainField[by * width + bx];
     }
     return n;
   }
 
-  /*
-    Симуляция для одной клетки.
-    self собственное состояние клетки: 0/1
-    neighbors кол-во соседей
-    return новое состояние клетки: 0/1
+  /**
+   * Definition of a new state of cell.
+   *
+   * @param self      own cell condition.
+   * @param neighbors number of neighbors.
+   * @return New cell condition.
    */
   private byte simulateCell(byte self, byte neighbors) {
     return (byte) (self == 0 ? (neighbors == 3 ? 1 : 0) : neighbors == 2 || neighbors == 3 ? 1 : 0);
