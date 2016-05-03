@@ -1,0 +1,234 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baa041b7_43b5ffeb",
+        "filename": "src/Life/LifePanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1007670
+      },
+      "writtenOn": "2016-05-03T20:05:48Z",
+      "side": 1,
+      "message": "final variables should have name in uppercase",
+      "range": {
+        "startLine": 49,
+        "startChar": 1,
+        "endLine": 51,
+        "endChar": 55
+      },
+      "revId": "411b3d439de491b21e40792ec8e7036c96d97f85",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_03d0171e",
+        "filename": "src/Life/LifePanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1007670
+      },
+      "writtenOn": "2016-05-03T20:05:48Z",
+      "side": 1,
+      "message": "saveByte_\u003d\u003d_1",
+      "range": {
+        "startLine": 192,
+        "startChar": 17,
+        "endLine": 192,
+        "endChar": 20
+      },
+      "revId": "411b3d439de491b21e40792ec8e7036c96d97f85",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_e3cad36d",
+        "filename": "src/Life/LifePanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1007670
+      },
+      "writtenOn": "2016-05-03T20:05:48Z",
+      "side": 1,
+      "message": "why u use embedded try blocks?",
+      "range": {
+        "startLine": 247,
+        "startChar": 5,
+        "endLine": 253,
+        "endChar": 11
+      },
+      "revId": "411b3d439de491b21e40792ec8e7036c96d97f85",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_c3c90f7a",
+        "filename": "src/Life/LifePanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1007670
+      },
+      "writtenOn": "2016-05-03T20:05:48Z",
+      "side": 1,
+      "message": "CS",
+      "range": {
+        "startLine": 254,
+        "startChar": 10,
+        "endLine": 256,
+        "endChar": 10
+      },
+      "revId": "411b3d439de491b21e40792ec8e7036c96d97f85",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_43acdf9f",
+        "filename": "src/Life/LifeSim.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1007670
+      },
+      "writtenOn": "2016-05-03T20:05:48Z",
+      "side": 1,
+      "message": "ouch...how painful\nuse a several number of initialization blocks at least",
+      "range": {
+        "startLine": 62,
+        "startChar": 1,
+        "endLine": 90,
+        "endChar": 71
+      },
+      "revId": "411b3d439de491b21e40792ec8e7036c96d97f85",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_0397f748",
+        "filename": "src/Life/LifeSim.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1007670
+      },
+      "writtenOn": "2016-05-03T20:05:48Z",
+      "side": 1,
+      "message": "impressive\nthe same remark |^",
+      "range": {
+        "startLine": 104,
+        "startChar": 3,
+        "endLine": 140,
+        "endChar": 38
+      },
+      "revId": "411b3d439de491b21e40792ec8e7036c96d97f85",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_c3a0efa1",
+        "filename": "src/Life/LifeSim.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1007670
+      },
+      "writtenOn": "2016-05-03T20:05:48Z",
+      "side": 1,
+      "message": "delete this system comment",
+      "range": {
+        "startLine": 214,
+        "startChar": 10,
+        "endLine": 215,
+        "endChar": 10
+      },
+      "revId": "411b3d439de491b21e40792ec8e7036c96d97f85",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_a39bab71",
+        "filename": "src/Life/LifeSim.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1007670
+      },
+      "writtenOn": "2016-05-03T20:05:48Z",
+      "side": 1,
+      "message": "...",
+      "range": {
+        "startLine": 226,
+        "startChar": 9,
+        "endLine": 227,
+        "endChar": 10
+      },
+      "revId": "411b3d439de491b21e40792ec8e7036c96d97f85",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_8389c728",
+        "filename": "src/Life/LifeSim.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1007670
+      },
+      "writtenOn": "2016-05-03T20:05:48Z",
+      "side": 1,
+      "message": "any actions under catch block?",
+      "range": {
+        "startLine": 244,
+        "startChar": 9,
+        "endLine": 245,
+        "endChar": 9
+      },
+      "revId": "411b3d439de491b21e40792ec8e7036c96d97f85",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_4383bf04",
+        "filename": "src/Life/LifeSim.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1007670
+      },
+      "writtenOn": "2016-05-03T20:05:48Z",
+      "side": 1,
+      "message": "it\u0027s better to use final String",
+      "range": {
+        "startLine": 255,
+        "startChar": 36,
+        "endLine": 255,
+        "endChar": 76
+      },
+      "revId": "411b3d439de491b21e40792ec8e7036c96d97f85",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
