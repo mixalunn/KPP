@@ -1,10 +1,12 @@
 package Life;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
+
 
 import javax.swing.JPanel;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.*;
 
 /**
  * Panel simulator from a field editor.
