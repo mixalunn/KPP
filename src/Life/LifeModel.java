@@ -11,34 +11,21 @@ import java.util.Arrays;
  * The arrays are stored values: 0, if cell is dead, and 1 if alive
  */
 public class LifeModel {
-  /**
-   * Total amount of neighboring cells.
-   */
+  /** Total amount of neighboring cells. */
   private static final int NEIGHBORS_CELL_AMOUNT = 8;
-  /**
-   * Main array.
-   */
+  /** Main array. */
   private byte[] mainField = null;
-  /**
-   * Sub array
-   */
+  /** Sub array */
   private byte[] backField = null;
-  /**
-   * Number cell on width and height
-   */
+  /** Number cell on width and height */
   private int width, height;
-  /**
-   * Offsets array
-   */
+  /** Offsets array */
   private int[] neighborOffset = null;
-  /**
-   * Offsets array on height and wight
-   */
+  /** Offsets array on height and wight */
   private int[][] neighborXYOffset = null;
 
   /**
    * Initialization model.
-   *
    * @param width  widht data field.
    * @param height height data field.
    */
@@ -51,30 +38,23 @@ public class LifeModel {
     neighborXYOffset = new int[][]{{-1, -1}, {0, -1}, {1, -1}, {-1, 0}, {1, 0}, {-1, 1}, {0, 1}, {1, 1}};
   }
 
-  /**
-   * @return Number cell on wight.
-   */
+  /** @return Number cell on wight. */
   public int getWidth() {
     return width;
   }
 
-  /**
-   * @return Number cell on height.
-   */
+  /** @return Number cell on height.*/
   public int getHeight() {
     return height;
   }
 
-  /**
-   * Clear cells array.
-   */
+  /** Clear cells array. */
   public void clear() {
     Arrays.fill(mainField, (byte) 0);
   }
 
   /**
    * Setting the value of a single cell in array that is get {@link #getCell(int, int)}
-   *
    * @param x cell number on height.
    * @param y cell number om wight.
    * @param c value cell: 0 - dead, 1 - alive.
@@ -85,7 +65,6 @@ public class LifeModel {
 
   /**
    * Getting the value of a single cell in array that is set {@link #setCell(int, int, byte)}
-   *
    * @param x cell number on height.
    * @param y - cell number om wight.
    * @return Value cell in byte: 0 - dead, 1 - alive.
@@ -96,7 +75,6 @@ public class LifeModel {
 
   /**
    * Setting array cells that is get {@link #getField()}
-   *
    * @param temp - new array.
    */
   public void setField(byte[] temp) {
@@ -105,25 +83,20 @@ public class LifeModel {
 
   /**
    * Getting array cells that is set {@link #setField}
-   *
    * @return main array <b>mainField</b>
    */
   public byte[] getField() {
     return mainField;
   }
 
-  /**
-   * Random filling of the array of cells.
-   */
+  /** Random filling of the array of cells. */
   public void randomByte() {
     for (int i = 0; i < width * height; i++) {
       mainField[i] = (byte) (0 + (int) (Math.random() * ((1 - 0) + 1)));
     }
   }
 
-  /**
-   * One step simulation.
-   */
+  /** One step simulation. */
   public void simulate() {
     for (int y = 1; y < height - 1; y++) {
       for (int x = 1; x < width - 1; x++) {
@@ -155,7 +128,6 @@ public class LifeModel {
 
   /**
    * Counting the neighbors to not touch the edges of cells.
-   *
    * @param j offset in array.
    * @return amount alive neighbors.
    */
@@ -169,7 +141,6 @@ public class LifeModel {
 
   /**
    * Counting neighbors for the boundary cells.
-   *
    * @param x cell number on wight.
    * @param y cell number on height.
    * @return Amount alive neighbors.
@@ -186,7 +157,6 @@ public class LifeModel {
 
   /**
    * Definition of a new state of cell.
-   *
    * @param self      own cell condition.
    * @param neighbors number of neighbors.
    * @return New cell condition.
