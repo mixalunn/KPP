@@ -8,73 +8,40 @@ import javax.swing.event.*;
 
 /**
  * Class creates an application window and user interface
- *
  * @author Michail Yuncevich
  */
 public class LifeSim extends JFrame {
-  /**
-   * Height menu bar
-   */
+  /** Height menu bar */
   private static final int SIZE_MENU_HEIGHT = 50;
-  /**
-   * Maximal width slider
-   */
+  /** Maximal width slider */
   private static final int SIZE_SLIDER_WIDTH = 500;
-  /**
-   * Maximal width button run/stop
-   */
+  /** Maximal width button run/stop */
   private static final int SIZE_BUTTON_WIDTH = 100;
-  /**
-   * Standard height panel
-   */
+  /** Standard height panel */
   private static final int STANDARD_HEIGHT = 70;
-  /**
-   * Standard wight panel
-   */
+  /** Standard wight panel */
   private static final int STANDARD_WIGHT = 100;
-  /**
-   * Small height panel
-   */
+  /** Small height panel */
   private static final int SMALL_HEIGHT = 40;
-  /**
-   * Small wight panel
-   */
+  /** Small wight panel */
   private static final int SMALL_WIGHT = 70;
-  /**
-   * Big height panel
-   */
+  /** Big height panel */
   private static final int BIG_HEIGHT = 80;
-  /**
-   * Big wight panel
-   */
+  /** Big wight panel */
   private static final int BIG_WIGHT = 150;
-  /**
-   * Small cell size
-   */
+  /** Small cell size */
   private static final int SMALL_CELL = 5;
-  /**
-   * Standard cell size
-   */
+  /** Standard cell size */
   private static final int STANDARD_CELL = 8;
-  /**
-   * Big cell size
-   */
+  /** Big cell size */
   private static final int BIG_CELL = 10;
-  /**
-   * Minimal value delay in slider {@link #slider}
-   */
+  /** Minimal value delay in slider {@link #slider} */
   private static final int MIN_SLEEP = 1;
-  /**
-   * Maximal value delay in slider {@link #slider}
-   */
-  private static final int MAX_SLEEP = 400;
-  /**
-   * Starting value delay in slider {@link #slider}
-   */
+  /** Maximal value delay in slider {@link #slider} */
+  private static final int MAX_SLEEP = 500;
+  /** Starting value delay in slider {@link #slider} */
   private static final int START_SLEEP = 60;
-  /**
-   * Game field
-   */
+  /** Game field */
   private LifePanel lifeP = new LifePanel();
   private JMenuBar menuBar = new JMenuBar();
   private JMenu menuFile = new JMenu("Game");
@@ -106,7 +73,6 @@ public class LifeSim extends JFrame {
 
   /**
    * Create new window, adding visual elements and handling actions
-   *
    * @param title - name new window
    */
   public LifeSim(String title) {
@@ -197,7 +163,6 @@ public class LifeSim extends JFrame {
           button1.setText("Run");
           lifeP.setSaveByte(0);
           lifeP.setLoadByte(0);
-
         }
       }
     });
@@ -368,7 +333,6 @@ public class LifeSim extends JFrame {
 
   /**
    * Opening dialog to save a file selection
-   *
    * @throws IOException Exception save in file
    */
   public void openWindowFrame() throws IOException {
@@ -380,7 +344,6 @@ public class LifeSim extends JFrame {
 
   /**
    * Opening dialog to load a file selection
-   *
    * @throws IOException Exception load from file
    */
   public void saveWindowFrame() throws IOException {
@@ -390,9 +353,7 @@ public class LifeSim extends JFrame {
     lifeP.setSaveByte(1);
   }
 
-  /**
-   * Creation and opening field size change window
-   */
+  /** Creation and opening field size change window */
   public void usersWindow() {
     final int FIELD_SIZE = 7;
     final int WINDOW_SIZE_HEIGHT = 70;
@@ -456,8 +417,6 @@ public class LifeSim extends JFrame {
   /**
    * Main method of the program. It sets the standard style of the application
    * and launches the main application thread with a new class LifeSim.
-   *
-   * @param args
    */
   public static void main(String[] args) {
     System.out.println("Start");
