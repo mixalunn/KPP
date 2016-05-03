@@ -69,7 +69,8 @@ public class LifeSim extends JFrame {
   private JMenuItem usersSize = new JMenuItem("Other");
   private JFrame usersSizeWindow = new JFrame("Users sizes");
   private JButton button1 = new JButton("Run");
-  private JSlider slider = new JSlider(JSlider.HORIZONTAL, MIN_SLEEP, MAX_SLEEP, START_SLEEP);
+  private JSlider slider =
+          new JSlider(JSlider.HORIZONTAL, MIN_SLEEP, MAX_SLEEP, START_SLEEP);
 
   /**
    * Create new window, adding visual elements and handling actions
@@ -395,7 +396,8 @@ public class LifeSim extends JFrame {
       @Override
       public void actionPerformed(ActionEvent e) {
         try {
-          lifeP.initialize(Integer.parseInt(fieldHight.getText()), Integer.parseInt(fieldWight.getText()));
+          lifeP.initialize(Integer.parseInt(fieldHight.getText()),
+                           Integer.parseInt(fieldWight.getText()));
           lifeP.setCellSize(Integer.parseInt(cellSize.getText()));
           markerLabel.setText("");
           fieldHight.setText("");

@@ -1,25 +1,15 @@
 package Life;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Insets;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
+import java.awt.*;
+import java.awt.event.*;
+import java.io.*;
 
 import javax.swing.JPanel;
 
 /**
  * Panel simulator from a field editor.
- * Left mouse button - put the cell, right - delete.  Editing is available at any time, even when
- * simulation is running.
+ * Left mouse button - put the cell, right - delete.
+ * Editing is available at any time, even when simulation is running.
  * Simulation process is performed in a separate thread.
  * @see LifeSim
  */
@@ -27,6 +17,10 @@ public class LifePanel extends JPanel implements Runnable {
 
   /** Default window size. */
   private static final int SIZE_STANDART_PANEL = 100;
+  /** CADET BLUE color HEX-code */
+  private static final int CADBLUE = 0x5F9EA0;
+  /** DARK GREEN color HEX-code */
+  private static final int DARKGREEN = 0x006400;
   /** Thread for simulation. */
   private Thread simThread = null;
   /**
@@ -41,9 +35,9 @@ public class LifePanel extends JPanel implements Runnable {
   /** The spacing between a cells. */
   private int cellGap = 1;
   /** Dead cell color. */
-  private static final Color c0 = new Color(0x5F9EA0);
+  private static final Color c0 = new Color(CADBLUE);
   /** Alive cell color. */
-  private static final Color c1 = new Color(0x006400);
+  private static final Color c1 = new Color(DARKGREEN);
   /** Byte for saving in thread {@link #saveToFile()} */
   private int saveByte = 0;
   /** Byte for loading in thread {@link #simulateFromFile()} */
@@ -59,8 +53,8 @@ public class LifePanel extends JPanel implements Runnable {
   public LifePanel() {
     setBackground(Color.BLACK);
     MouseAdapter ma = new MouseAdapter() {
-      private boolean pressedLeft = false;    // нажата левая кнопка мыши
-      private boolean pressedRight = false;    // нажата правая кнопка мыши
+      private boolean pressedLeft = false;
+      private boolean pressedRight = false;
 
       @Override
       public void mouseDragged(MouseEvent e) {
@@ -92,7 +86,6 @@ public class LifePanel extends JPanel implements Runnable {
       private void setCell(MouseEvent e) {
         if (life != null) {
           synchronized (life) {
-            // рассчитываем координаты клетки, на которую указывает курсор мыши
             int x = e.getX() / (cellSize + cellGap);
             int y = e.getY() / (cellSize + cellGap);
             if (x >= 0 && y >= 0 && x < life.getWidth() && y < life.getHeight()) {
@@ -211,7 +204,9 @@ public class LifePanel extends JPanel implements Runnable {
       if (!savefile.exists()) {
         savefile.createNewFile();
       }
-      PrintWriter out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(savefile.getAbsolutePath(), true), "UTF-8"));
+      PrintWriter out = new PrintWriter(
+              new OutputStreamWriter(
+                      new FileOutputStream(savefile.getAbsolutePath(), true), "UTF-8"));
       try {
         out.println(savefile.getName());
         out.println(Integer.toString(life.getWidth()));
@@ -236,7 +231,8 @@ public class LifePanel extends JPanel implements Runnable {
     int hight, widht, tempCellSize;
     byte[] tempField;
     try {
-      BufferedReader inTextStream = new BufferedReader(new FileReader(loadfile.getAbsoluteFile()));
+      BufferedReader inTextStream =
+              new BufferedReader(new FileReader(loadfile.getAbsoluteFile()));
       try {
         char arrayValueCharField[];
         while (true) {
@@ -307,7 +303,8 @@ public class LifePanel extends JPanel implements Runnable {
   public Dimension getPreferredSize() {
     if (life != null) {
       Insets b = getInsets();
-      return new Dimension((cellSize + cellGap) * life.getWidth() + cellGap + b.left + b.right,
+      return new Dimension(
+              (cellSize + cellGap) * life.getWidth() + cellGap + b.left + b.right,
               (cellSize + cellGap) * life.getHeight() + cellGap + b.top + b.bottom);
     } else
       return new Dimension(SIZE_STANDART_PANEL, SIZE_STANDART_PANEL);
@@ -324,8 +321,8 @@ public class LifePanel extends JPanel implements Runnable {
           for (int x = 0; x < life.getWidth(); x++) {
             byte c = (byte) life.getCell(x, y);
             g.setColor(c == 1 ? c1 : c0);
-            g.fillRect(b.left + cellGap + x * (cellSize + cellGap), b.top + cellGap + y
-                    * (cellSize + cellGap), cellSize, cellSize);
+            g.fillRect(b.left + cellGap + x * (cellSize + cellGap),
+                    b.top + cellGap + y * (cellSize + cellGap), cellSize, cellSize);
           }
         }
       }

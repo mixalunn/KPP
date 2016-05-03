@@ -4,8 +4,9 @@ import java.util.Arrays;
 
 /**
  * Model game "Life"
- * Surface of the field - toroid. ie all opposing edges are a continuation of each other
- * For simulation, using double buffering: data are taken from main array <b>mainField</b>,
+ * Surface of the field - toroid.
+ * For simulation, using double buffering:
+ * data are taken from main array <b>mainField</b>,
  * after the calculation result is added to sub array  <b>backField</b>.
  * After calculating arrays are swapped.
  * The arrays are stored values: 0, if cell is dead, and 1 if alive
@@ -34,8 +35,12 @@ public class LifeModel {
     this.height = height;
     mainField = new byte[width * height];
     backField = new byte[width * height];
-    neighborOffset = new int[]{-width - 1, -width, -width + 1, -1, 1, width - 1, width, width + 1};
-    neighborXYOffset = new int[][]{{-1, -1}, {0, -1}, {1, -1}, {-1, 0}, {1, 0}, {-1, 1}, {0, 1}, {1, 1}};
+    neighborOffset = new int[]{
+            -width - 1, -width, -width + 1, -1, 1, width - 1, width, width + 1
+    };
+    neighborXYOffset = new int[][]{
+            {-1, -1}, {0, -1}, {1, -1}, {-1, 0}, {1, 0}, {-1, 1}, {0, 1}, {1, 1}
+    };
   }
 
   /** @return Number cell on wight. */
@@ -54,7 +59,8 @@ public class LifeModel {
   }
 
   /**
-   * Setting the value of a single cell in array that is get {@link #getCell(int, int)}
+   * Setting the value of a single cell in array that is get
+   * {@link #getCell(int, int)}
    * @param x cell number on height.
    * @param y cell number om wight.
    * @param c value cell: 0 - dead, 1 - alive.
@@ -64,7 +70,8 @@ public class LifeModel {
   }
 
   /**
-   * Getting the value of a single cell in array that is set {@link #setCell(int, int, byte)}
+   * Getting the value of a single cell in array that is set
+   * {@link #setCell(int, int, byte)}
    * @param x cell number on height.
    * @param y - cell number om wight.
    * @return Value cell in byte: 0 - dead, 1 - alive.
@@ -92,7 +99,7 @@ public class LifeModel {
   /** Random filling of the array of cells. */
   public void randomByte() {
     for (int i = 0; i < width * height; i++) {
-      mainField[i] = (byte) (0 + (int) (Math.random() * ((1 - 0) + 1)));
+      mainField[i] = (byte) ( (int) (Math.random() * 2));
     }
   }
 
@@ -162,6 +169,7 @@ public class LifeModel {
    * @return New cell condition.
    */
   private byte simulateCell(byte self, byte neighbors) {
-    return (byte) (self == 0 ? (neighbors == 3 ? 1 : 0) : neighbors == 2 || neighbors == 3 ? 1 : 0);
+    return (byte) (self == 0 ? (neighbors == 3 ? 1 : 0) :
+                   neighbors == 2 || neighbors == 3 ? 1 : 0);
   }
 }
