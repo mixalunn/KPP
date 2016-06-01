@@ -1,7 +1,5 @@
 package Life;
 
-
-
 import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -9,13 +7,7 @@ import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
+import java.io.*;
 
 /**
  * Panel simulator from a field editor.
@@ -46,9 +38,9 @@ public class LifePanel extends JPanel implements Runnable {
   /** The spacing between a cells. */
   private int cellGap = 1;
   /** Dead cell color. */
-  private static final Color c0 = new Color(CADBLUE);
+  private static final Color colorField = new Color(CADBLUE);
   /** Alive cell color. */
-  private static final Color c1 = new Color(DARKGREEN);
+  private static final Color colorCell = new Color(DARKGREEN);
   /** Byte for saving in thread {@link #saveToFile()} */
   private int saveByte = 0;
   /** Byte for loading in thread {@link #simulateFromFile()} */
@@ -189,7 +181,7 @@ public class LifePanel extends JPanel implements Runnable {
   public void startSimulation() {
     if (simThread == null) {
       simThread = new Thread(this);
-      if(saveByte==1)
+      if(saveByte == 1)
         saveToFile();
       simThread.start();
     }
@@ -247,16 +239,16 @@ public class LifePanel extends JPanel implements Runnable {
       try {
         char arrayValueCharField[];
         while (true) {
-          try {
             Thread.sleep(updateDelay);
-          } catch (InterruptedException e) {
-          }
-          if (readByte == 0) break;
-          if (inTextStream.readLine() == null) break;
+
+          if (readByte == 0) { break; }
+          if (inTextStream.readLine()  == null) { break; }
+
           widht = Integer.parseInt(inTextStream.readLine());
           hight = Integer.parseInt(inTextStream.readLine());
           tempCellSize = Integer.parseInt(inTextStream.readLine());
           tempField = new byte[widht * hight];
+
           int numberCell = 0;
           for (int i = 0; i < hight; i++) {
             arrayValueCharField = inTextStream.readLine().toCharArray();
@@ -269,6 +261,7 @@ public class LifePanel extends JPanel implements Runnable {
               numberCell++;
             }
           }
+
           initialize(widht, hight);
           setCellSize(tempCellSize);
           getLifeModel().setField(tempField);
@@ -277,12 +270,54 @@ public class LifePanel extends JPanel implements Runnable {
       } finally {
         inTextStream.close();
       }
+    } catch (InterruptedException e) {
+      System.out.println("Delayerr");
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
     setLoadByte(0);
     stopSimulation();
   }
+
+  public void generateGames(int count){
+    int generCount;
+    try {
+      for (int i = 1; i <= count; i++) {
+        life.clear();
+        life.randomByte();
+        byte[] tempField = life.getField();
+        generCount = (int) (Math.random() * 40 + 10);
+        File newGame = new File(
+                "C:\\Users\\Mixalunn\\Documents\\SaveGame\\genergame"
+                        + Integer.toString(i));
+        PrintWriter out = new PrintWriter(
+                new OutputStreamWriter(
+                        new FileOutputStream(newGame, true), "UTF-8"));
+        try{
+          while (generCount-- != 0) {
+            out.println(newGame.getName().toString());
+            out.println(Integer.toString(life.getWidth()));
+            out.println(Integer.toString(life.getHeight()));
+            out.println(Integer.toString(cellSize));
+            for (int f = 0; f < life.getHeight(); f++) {
+              for (int g = 0; g < (life.getWidth()); g++) {
+                out.print(tempField[f * life.getWidth() + g]);
+              }
+            out.println();
+            }
+            life.simulate();
+            life.simulate();
+          }
+        } finally {
+          out.close();
+        }
+      }
+    } catch (IOException ex) {
+      ex.printStackTrace();
+    }
+  }
+
+
 
   /** Setting display field and check save/load in the thread. */
   @Override
@@ -302,6 +337,7 @@ public class LifePanel extends JPanel implements Runnable {
       try {
         Thread.sleep(updateDelay);
       } catch (InterruptedException e) {
+        System.out.println("Delayerr");
       }
     }
   }
@@ -331,7 +367,7 @@ public class LifePanel extends JPanel implements Runnable {
         for (int y = 0; y < life.getHeight(); y++) {
           for (int x = 0; x < life.getWidth(); x++) {
             byte c = (byte) life.getCell(x, y);
-            g.setColor(c == 1 ? c1 : c0);
+            g.setColor(c == 1 ? colorCell : colorField);
             g.fillRect(b.left + cellGap + x * (cellSize + cellGap),
                     b.top + cellGap + y * (cellSize + cellGap), cellSize, cellSize);
           }
