@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baa041b7_c64ad954",
+        "filename": "src/Life/LifePanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1007670
+      },
+      "writtenOn": "2016-06-01T07:53:17Z",
+      "side": 1,
+      "message": "organize import",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 17
+      },
+      "revId": "8d8557aa14e938fad13ff3d553cc49d983185ae8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
