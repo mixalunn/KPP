@@ -1,11 +1,12 @@
 package Life;
 
-
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 
 import javax.swing.JButton;
@@ -16,12 +17,12 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JSlider;
-import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import ScalaLife.*;
 
 /**
  * Class creates an application window and user interface
@@ -60,34 +61,11 @@ public class LifeSim extends JFrame {
   private static final int START_SLEEP = 60;
   /** Game field */
   private LifePanel lifeP = new LifePanel();
-  private JMenuBar menuBar = new JMenuBar();
-  private JMenu menuFile = new JMenu("Game");
-  private JMenu menuView = new JMenu("View");
-  private JMenu sizeMenu = new JMenu("Size");
-  private JMenu frameSizeMenu = new JMenu("Field size");
-  private JMenu cellSizeMenu = new JMenu("Cell size");
-  private JMenuItem startItem = new JMenuItem("Run");
-  private JMenuItem stopItem = new JMenuItem("Stop");
-  private JMenuItem exitItem = new JMenuItem("Exit");
-  private JMenuItem clearItem = new JMenuItem("Clear");
-  private JMenuItem randItem = new JMenuItem("Randomize");
-  private JMenuItem saveItem = new JMenuItem("Save as");
-  private JMenuItem loadItem = new JMenuItem("Load");
-  private JMenuItem defStyle = new JMenuItem("Standard");
-  private JMenuItem ironStyle = new JMenuItem("Metall");
-  private JMenuItem motifStyle = new JMenuItem("Motif");
-  private JMenuItem nimbusStyle = new JMenuItem("Nimbus");
-  private JMenuItem smallSize = new JMenuItem("Small-70x40");
-  private JMenuItem mediumSize = new JMenuItem("Middle-100x70");
-  private JMenuItem bigSize = new JMenuItem("Large-150x80");
-  private JMenuItem cellSSize = new JMenuItem("Small");
-  private JMenuItem cellMSize = new JMenuItem("Middle");
-  private JMenuItem cellLSize = new JMenuItem("Large");
-  private JMenuItem usersSize = new JMenuItem("Other");
-  private JFrame usersSizeWindow = new JFrame("Users sizes");
-  private JButton button1 = new JButton("Run");
+  /** Directory for saving*/
+  private String homeDir = "C:\\Users\\Mixalunn\\Documents\\SaveGame";
+
   private JSlider slider =
-          new JSlider(JSlider.HORIZONTAL, MIN_SLEEP, MAX_SLEEP, START_SLEEP);
+      new JSlider(JSlider.HORIZONTAL, MIN_SLEEP, MAX_SLEEP, START_SLEEP);
 
   /**
    * Create new window, adding visual elements and handling actions
@@ -100,46 +78,90 @@ public class LifeSim extends JFrame {
 
     lifeP.initialize(STANDARD_WIGHT, STANDARD_HEIGHT);
     add(lifeP);
+
+    JMenuBar menuBar = new JMenuBar();
     add(menuBar, BorderLayout.NORTH);
+    JMenu menuFile = new JMenu("Game  ");
     menuBar.add(menuFile);
-    menuBar.add(new JLabel("  "));
+    JMenu sizeMenu = new JMenu("Size  ");
     menuBar.add(sizeMenu);
-    menuFile.add(startItem);
-    menuFile.add(stopItem);
+    JMenu menuView = new JMenu("View  ");
+    menuBar.add(menuView);
+    JMenu sortFile = new JMenu("Sort  ");
+    menuBar.add(sortFile);
+
+    JMenuItem startStopItem = new JMenuItem("Run");
+    menuFile.add(startStopItem);
+    JMenuItem clearItem = new JMenuItem("Clear");
     menuFile.add(clearItem);
     menuFile.addSeparator();
+    JMenuItem randItem = new JMenuItem("Randomize");
     menuFile.add(randItem);
     menuFile.addSeparator();
+    JMenuItem saveItem = new JMenuItem("Save as");
     menuFile.add(saveItem);
+    JMenuItem loadItem = new JMenuItem("Load");
     menuFile.add(loadItem);
     menuFile.addSeparator();
+    JMenuItem exitItem = new JMenuItem("Exit");
     menuFile.add(exitItem);
-    menuView.add(defStyle);
-    menuView.add(ironStyle);
-    menuView.add(motifStyle);
-    menuView.add(nimbusStyle);
+
+    JMenu frameSizeMenu = new JMenu("Field size");
     sizeMenu.add(frameSizeMenu);
-    sizeMenu.add(cellSizeMenu);
-    sizeMenu.add(usersSize);
+    JMenuItem smallSize = new JMenuItem("Small-70x40");
     frameSizeMenu.add(smallSize);
+    JMenuItem mediumSize = new JMenuItem("Middle-100x70");
     frameSizeMenu.add(mediumSize);
+    JMenuItem bigSize = new JMenuItem("Large-150x80");
     frameSizeMenu.add(bigSize);
+
+    JMenu cellSizeMenu = new JMenu("Cell size");
+    sizeMenu.add(cellSizeMenu);
+    JMenuItem cellSSize = new JMenuItem("Small");
     cellSizeMenu.add(cellSSize);
+    JMenuItem cellMSize = new JMenuItem("Middle");
     cellSizeMenu.add(cellMSize);
+    JMenuItem cellLSize = new JMenuItem("Large");
     cellSizeMenu.add(cellLSize);
-    menuBar.add(new JLabel("   "));
-    menuBar.add(menuView);
+    JMenuItem usersSize = new JMenuItem("Other");
+    sizeMenu.add(usersSize);
+
+    JMenuItem defStyle = new JMenuItem("Standard");
     menuView.add(defStyle);
+    JMenuItem ironStyle = new JMenuItem("Metall");
     menuView.add(ironStyle);
+    JMenuItem motifStyle = new JMenuItem("Motif");
     menuView.add(motifStyle);
+    JMenuItem nimbusStyle = new JMenuItem("Nimbus");
     menuView.add(nimbusStyle);
-    menuBar.add(new JLabel("  "));
-    menuBar.add(button1);
+
+    JMenuItem stat = new JMenuItem("Statistic");
+    sortFile.add(stat);
+    JMenuItem sortJava = new JMenuItem("Sort Java");
+    sortFile.add(sortJava);
+    JMenuItem sortScala = new JMenuItem("Sort Scala");
+    sortFile.add(sortScala);
+    JMenu genGame = new JMenu("Generation");
+    sortFile.add(genGame);
+    JMenuItem ten = new JMenuItem("10");
+    ten.addActionListener(new SaveGeneratorListener());
+    JMenuItem thousand = new JMenuItem("1000");
+    thousand.addActionListener(new SaveGeneratorListener());
+    JMenuItem tenThousand = new JMenuItem("10000");
+    tenThousand.addActionListener(new SaveGeneratorListener());
+    genGame.add(ten);
+    genGame.add(thousand);
+    genGame.add(tenThousand);
+
+
+    JButton button = new JButton("Run");
+    menuBar.add(button);
     menuBar.add(new JLabel("       Faster"));
     menuBar.add(slider);
     menuBar.add(new JLabel("Slower"));
+
     lifeP.setUpdateDelay(slider.getValue());
-    button1.setMaximumSize(new Dimension(SIZE_BUTTON_WIDTH, SIZE_MENU_HEIGHT));
+    button.setMaximumSize(new Dimension(SIZE_BUTTON_WIDTH, SIZE_MENU_HEIGHT));
     slider.setMaximumSize(new Dimension(SIZE_SLIDER_WIDTH, SIZE_MENU_HEIGHT));
     slider.addChangeListener(new ChangeListener() {
       @Override
@@ -148,39 +170,34 @@ public class LifeSim extends JFrame {
       }
     });
 
-    button1.addActionListener(new ActionListener() {
+    button.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
         if (lifeP.isSimulating()) {
           lifeP.stopSimulation();
-          button1.setText("Run");
+          button.setText("Run");
           lifeP.setSaveByte(0);
           lifeP.setLoadByte(0);
         } else {
           lifeP.startSimulation();
-          button1.setText("Stop");
+          button.setText("Stop");
         }
       }
     });
 
-    startItem.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        if (!lifeP.isSimulating()) {
-          lifeP.startSimulation();
-          button1.setText("Stop");
-        }
-      }
-    });
-
-    stopItem.addActionListener(new ActionListener() {
+    startStopItem.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
         if (lifeP.isSimulating()) {
           lifeP.stopSimulation();
-          button1.setText("Run");
+          button.setText("Run");
+          startStopItem.setText("Start");
           lifeP.setSaveByte(0);
           lifeP.setLoadByte(0);
+        } else {
+          lifeP.startSimulation();
+          button.setText("Stop");
+          startStopItem.setText("Stop");
         }
       }
     });
@@ -211,7 +228,6 @@ public class LifeSim extends JFrame {
         try {
           saveWindowFrame();
         } catch (IOException e1) {
-          // TODO Auto-generated catch block
           e1.printStackTrace();
         }
       }
@@ -223,7 +239,6 @@ public class LifeSim extends JFrame {
         try {
           openWindowFrame();
         } catch (IOException e1) {
-          // TODO Auto-generated catch block
           e1.printStackTrace();
         }
       }
@@ -341,97 +356,159 @@ public class LifeSim extends JFrame {
     usersSize.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        usersSizeWindow.setVisible(true);
+        new SizeWindow("UserSize", lifeP);
       }
     });
+
+    sortJava.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent actionEvent) {
+        sortLoad(true);
+      }
+    });
+
+    sortScala.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed (ActionEvent actionEvent) {
+        sortLoad(false);
+      }
+    });
+
+    stat.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed (ActionEvent actionEvent) {
+        File[] files = new File(homeDir).listFiles();
+        String[] fileName = new String[files.length];
+        int[][] lineArray = new int[files.length][lifeP.getWidth()];
+        char arrayValueCharField[];
+
+        try {
+          for (int i = 0; i < files.length; i++) {
+            int count = 0;
+            fileName[i] = files[i].getName();
+            BufferedReader reader = new BufferedReader(new FileReader(files[i]));
+            try {
+              while (true) {
+                int tempNumbCell = 0;
+                if (reader.readLine() == null) {
+                  break;
+                }
+                int widht = Integer.parseInt(reader.readLine());
+                int hight = Integer.parseInt(reader.readLine());
+                reader.readLine();
+                for (int f = 0; f < hight; f++) {
+                  arrayValueCharField = reader.readLine().toCharArray();
+                  for (int g = 0; g < widht; g++) {
+                    if (arrayValueCharField[g] == '1')
+                      tempNumbCell++;
+                  }
+                }
+                lineArray[i][count] = tempNumbCell;
+                count++;
+              }
+            } finally {
+              reader.close();
+            }
+          }
+        } catch (IOException ex) {
+          ex.printStackTrace();
+        }
+        new ScalaStat().getStat(fileName,lineArray);
+      }
+    });
+
     pack();
     setVisible(true);
-    usersWindow();
+  }
+
+  private class SaveGeneratorListener implements ActionListener {
+    public void actionPerformed(ActionEvent event) {
+      lifeP.generateGames(Integer.parseInt(event.getActionCommand()));
+    }
   }
 
   /**
-   * Opening dialog to save a file selection
+   * Function loading files for sorting
+   * @param typeSort true - Java sorting else Scala
+   */
+  private void sortLoad(boolean typeSort) {
+    File[] files = new File(homeDir).listFiles();
+    String[] fileName = new String[files.length];
+    int[] fieldsArray = new int[files.length];
+
+    JavaSort javaSort = new JavaSort();
+    ScalaSort scalaSort = new ScalaSort();
+    long time = System.currentTimeMillis();
+    char arrayValueCharField[];
+
+    try {
+      for (int i = 0; i < files.length; i++) {
+        fileName[i] = files[i].getName();
+        BufferedReader reader = new BufferedReader(new FileReader(files[i]));
+        try {
+          int tempNumbCell = 0;
+          while (true) {
+            if (reader.readLine() == null) {
+              break;
+            }
+            int widht = Integer.parseInt(reader.readLine());
+            int hight = Integer.parseInt(reader.readLine());
+            reader.readLine();
+            for (int f = 0; f < hight; f++) {
+              arrayValueCharField = reader.readLine().toCharArray();
+              for (int g = 0; g < widht; g++) {
+                if (arrayValueCharField[g] == '1')
+                  tempNumbCell++;
+              }
+            }
+          }
+          fieldsArray[i] = tempNumbCell;
+        } finally {
+          reader.close();
+        }
+      }
+    } catch (IOException ex) {
+      ex.printStackTrace();
+    }
+
+    String nameTable;
+    if(typeSort) {
+      javaSort.qSort(fileName, fieldsArray, 0, files.length - 1);
+      nameTable = "JavaSort";
+    } else {
+      scalaSort.sort(fileName, fieldsArray);
+      nameTable = "ScalaSort";
+    }
+    time = System.currentTimeMillis() - time;
+    new SortTable(nameTable, fileName, fieldsArray, Long.toString(time));
+  }
+
+
+  /**
+   * Opening uaersSizeWinow to save a file selection
    * @throws IOException Exception save in file
    */
   public void openWindowFrame() throws IOException {
-    JFileChooser dialog1 = new JFileChooser();
-    dialog1.showOpenDialog(this);
-    lifeP.setLoadFile(dialog1.getSelectedFile());
+    JFileChooser openDialog = new JFileChooser();
+    openDialog.setCurrentDirectory(new File(homeDir));
+    openDialog.showOpenDialog(this);
+    lifeP.setLoadFile(openDialog.getSelectedFile());
     lifeP.setLoadByte(1);
   }
 
   /**
-   * Opening dialog to load a file selection
+   * Opening uaersSizeWinow to load a file selection
    * @throws IOException Exception load from file
    */
   public void saveWindowFrame() throws IOException {
-    JFileChooser dialog2 = new JFileChooser();
-    dialog2.showSaveDialog(this);
-    lifeP.setSaveFile(dialog2.getSelectedFile());
+    JFileChooser saveDialog = new JFileChooser();
+    saveDialog.setCurrentDirectory(new File(homeDir));
+    saveDialog.showSaveDialog(this);
+    lifeP.setSaveFile(saveDialog.getSelectedFile());
     lifeP.setSaveByte(1);
   }
 
-  /** Creation and opening field size change window */
-  public void usersWindow() {
-    final int FIELD_SIZE = 7;
-    final int WINDOW_SIZE_HEIGHT = 70;
-    final int WINDOW_SIZE_WIGHT = 300;
-    usersSizeWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    usersSizeWindow.setAlwaysOnTop(true);
-    JButton okButton = new JButton("Ok");
-    JButton cancelButton = new JButton("Cancel");
-    JTextField fieldHight = new JTextField(FIELD_SIZE);
-    JTextField fieldWight = new JTextField(FIELD_SIZE);
-    JTextField cellSize = new JTextField(FIELD_SIZE);
-    JLabel markerLabel = new JLabel("");
-    usersSizeWindow.setSize(new Dimension(WINDOW_SIZE_WIGHT, WINDOW_SIZE_HEIGHT));
-    usersSizeWindow.setResizable(true);
-    usersSizeWindow.setUndecorated(true);
-    usersSizeWindow.setLayout(new GridLayout(3, 3));
-    usersSizeWindow.add(new JLabel("  Field size"));
-    usersSizeWindow.add(fieldHight);
-    usersSizeWindow.add(fieldWight);
-    usersSizeWindow.add(new JLabel("  Cell size"));
-    usersSizeWindow.add(cellSize);
-    usersSizeWindow.add(markerLabel);
-    usersSizeWindow.add(okButton);
-    usersSizeWindow.add(cancelButton);
-    usersSizeWindow.setVisible(true);
 
-    cancelButton.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        markerLabel.setText("");
-        fieldHight.setText("");
-        fieldWight.setText("");
-        cellSize.setText("");
-        usersSizeWindow.setVisible(false);
-      }
-    });
-
-    okButton.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        try {
-          lifeP.initialize(Integer.parseInt(fieldHight.getText()),
-                           Integer.parseInt(fieldWight.getText()));
-          lifeP.setCellSize(Integer.parseInt(cellSize.getText()));
-          markerLabel.setText("");
-          fieldHight.setText("");
-          fieldWight.setText("");
-          cellSize.setText("");
-          usersSizeWindow.setVisible(false);
-          SwingUtilities.updateComponentTreeUI(getContentPane());
-          pack();
-        } catch (NumberFormatException m) {
-          markerLabel.setText("  Error");
-        }
-      }
-    });
-    usersSizeWindow.setLocationRelativeTo(null);
-    usersSizeWindow.setVisible(false);
-    pack();
-  }
 
   /**
    * Main method of the program. It sets the standard style of the application
